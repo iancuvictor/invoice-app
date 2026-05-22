@@ -1,13 +1,114 @@
-#header{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+#invoiceBody {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  box-shadow: 0px 12px 17px 0px rgba(0, 0, 0, 0.2);
+  padding: 20mm;
 }
 
-#header .seller, #header .receiver, #header .center .inputFields{
+#header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#header .seller,
+#header .receiver,
+#header .center .inputFields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.body .bodyHeader {
+  display: flex;
+  flex-direction: row;
+  height: 80px;
+}
+
+.body .row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  outline: 1px solid black;
+  outline-offset: -1px;
+  text-align: center;
+}
+
+.row .text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+}
+
+.row .number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 25px;
+}
+
+.nrCrt {
+  width: 5%;
+}
+
+.denumire {
+  width: 30%;
+}
+
+.um {
+  width: 8%;
+}
+
+.cantitate {
+  width: 12%;
+}
+
+.pretUnitar {
+  width: 15%;
+}
+
+.valoareLei {
+  width: 15%;
+}
+
+.valoareTva {
+  width: 15%;
+}
+
+.contents{
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: baseline;
+}
+
+.bodyProdus {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.bodyProdus span{
+  outline: 1px solid black;
+  outline-offset: -1px;
+  text-align: center;
+}
+
+.bodyProdus .text{
+    display: flex;
+}
+
+.bodyProdus textarea{
+    margin: 0;
+    width: 100%;
+    field-sizing: content;
+    resize: none;
+    outline: none;
+    border: none;
 }
