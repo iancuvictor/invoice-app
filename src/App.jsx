@@ -1,11 +1,15 @@
-import { Invoice } from './components';
+import { Invoice, InvoiceList } from './components';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
-
+  let [dataFacturi, setDataFacturi] = useState([]);
   return (
     <>
-    <Invoice />
+    <Invoice dataFacturi={dataFacturi} setDataFacturi={setDataFacturi}/>
+    <div id='invoiceList'>
+    <InvoiceList array={dataFacturi} setArray={setDataFacturi}/>
+    </div>
     </>
   )
 }

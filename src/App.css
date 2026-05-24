@@ -3,3 +3,19 @@ body {
   display: flex;
   justify-content: center;
 }
+
+#invoiceList{
+  position: absolute;
+  top: 0px;
+  left: 20px;
+}
+
+@media print{
+  @page {
+    size: auto;   /* Auto este valoarea inițială */
+    margin: 0 0 0 0;    /* Schimbă margina la 0 pentru a elimina antetul și subsolul */
+  }
+  #invoiceList {
+    display: none;
+  }
+}

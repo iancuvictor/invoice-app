@@ -1,9 +1,10 @@
 #invoiceBody {
   width: 210mm;
-  min-height: 297mm;
+  height: 297mm;
   background: white;
   box-shadow: 0px 12px 17px 0px rgba(0, 0, 0, 0.2);
   padding: 20mm;
+  position: relative;
 }
 
 #header {
@@ -11,10 +12,31 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  outline: 2px solid black;
+  outline-offset: -1px;
+  padding: 20px;
 }
 
-#header .seller,
-#header .receiver,
+.seller,
+.receiver,
+.center {
+  width: 33.333%;
+  font-size: 14px;
+}
+
+.seller, .receiver{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #header .center .inputFields {
   display: flex;
   flex-direction: column;
@@ -22,10 +44,20 @@
   align-items: baseline;
 }
 
+.center{
+  padding: 0px 20px 0px 20px;
+}
+
+.inputFields{
+  width: 100%;
+}
+
 .body .bodyHeader {
   display: flex;
   flex-direction: row;
   height: 80px;
+  outline: 2px solid black;
+  outline-offset: -1px;
 }
 
 .body .row {
@@ -36,6 +68,7 @@
   outline: 1px solid black;
   outline-offset: -1px;
   text-align: center;
+  font-size: 14px;
 }
 
 .row .text {
@@ -57,34 +90,53 @@
 }
 
 .denumire {
-  width: 30%;
+  width: 44%;
+  box-sizing: border-box;
+  padding: 0px 10px 0px 10px;
 }
 
 .um {
-  width: 8%;
+  width: 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cantitate {
-  width: 12%;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pretUnitar {
-  width: 15%;
+  width: 12%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .valoareLei {
-  width: 15%;
+  width: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .valoareTva {
-  width: 15%;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.contents{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  outline: 2px solid black;
+  outline-offset: -1px;
 }
 
 .bodyProdus {
@@ -94,21 +146,168 @@
   width: 100%;
 }
 
-.bodyProdus span{
+.bodyProdus span {
   outline: 1px solid black;
   outline-offset: -1px;
   text-align: center;
 }
 
-.bodyProdus .text{
-    display: flex;
+.bodyProdus .text {
+  display: flex;
 }
 
-.bodyProdus textarea{
-    margin: 0;
-    width: 100%;
-    field-sizing: content;
-    resize: none;
-    outline: none;
+.bodyProdus textarea {
+  margin: 0;
+  width: 100%;
+  field-sizing: content;
+  resize: none;
+  outline: none;
+  border: none;
+}
+
+.bodyProdus input {
+  height: 100%;
+  width: 100%;
+  padding: 0px 10px 0px 10px;
+  margin: 0;
+  border: none;
+  outline: none;
+}
+
+.bodyFooter {
+  display: flex;
+  flex-direction: row;
+  outline: 2px solid black;
+  outline-offset: -1px;
+  font-size: 12px;
+  height: 170px;
+}
+
+.semnatura,
+.expeditie {
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid black;
+  outline-offset: -1px;
+  font-size: 14px;
+  padding: 5px 8px 0 8px;
+  box-sizing: border-box;
+}
+
+.semnatura {
+  justify-content: space-between;
+  width: 25%;
+  font-size: 14px;
+}
+
+.expeditie {
+  width: 40%;
+}
+
+.buttons {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.buttons button {
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.removeButton {
+  position: absolute;
+  right: 40px;
+  padding: 0px 10px 0px 10px;
+  margin: 0;
+  cursor: pointer;
+  background-color: rgb(255, 20, 66, 50%);
+  transition: 0.1s ease-out;
+  border-radius: 2px;
+}
+
+.removeButton:hover {
+  transition: 0.1s ease-out;
+  background-color: rgb(255, 20, 66, 100%);
+}
+
+.headerRow{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  gap: 10px;
+}
+
+.headerRow span {
+  white-space: nowrap;
+}
+
+.headerRow input{
+  flex: 1;
+  min-width: 0;
+  width: 0;
+}
+
+.footerRow{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  gap: 10px;
+}
+
+.footerRow span {
+  white-space: nowrap;
+}
+
+.footerRow input{
+  flex: 1;
+  min-width: 0;
+  width: 0;
+}
+
+.info{
+  font-size: 12px;
+}
+
+.serieCI{
+  width: 25px;
+}
+
+.numarCI{
+  width: 50px;
+}
+
+.dataExpediere{
+  width: 80px;
+}
+
+.oraExpediere{
+  width: 50px;
+}
+
+.bodyFooter input{
+  margin: 0;
+  padding: 0 2px 0 2px;
+}
+
+@media print {
+  .noprint {
+    display: none;
+  }
+
+  #invoiceBody {
+    box-shadow: 0px 12px 17px 0px rgba(0, 0, 0, 0);
+    height: 250mm;
+  }
+
+  input{
     border: none;
+    outline: none;
+  }
 }
