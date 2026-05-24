@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import "./style.css";
 
 function Invoice({ dataFacturi, setDataFacturi }) {
-  let [indexFacturi, setIndexFacturi] = useState([]);
   let [dataFactura, setDataFactura] = useState([
     {
-
       furnizor: {
         denumire: "",
         nrRegistruCom: "",
@@ -15,6 +13,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
         judetul: "",
         iban: "",
         banca: "",
+        cotaTva: ""
       },
 
       cumparator: {
@@ -56,16 +55,21 @@ function Invoice({ dataFacturi, setDataFacturi }) {
   };
 
   const adaugaProdus = () => {
-    setIndexFacturi([
-      ...indexFacturi,
+    setDataFactura([
       {
-        id: Date.now(),
-        denumire: "Introdu numele produsului",
-        um: "buc",
-        cantitate: 0,
-        pretUnitar: 0,
-        valoareLei: 0,
-        valoareTva: 0,
+        ...dataFactura[0],
+        produse: [
+          ...dataFactura[0].produse,
+          {
+            id: Date.now(),
+            denumire: "Introdu numele produsului",
+            um: "buc",
+            cantitate: 0,
+            pretUnitar: 0,
+            valoareLei: 0,
+            valoareTva: 0,
+          },
+        ],
       },
     ]);
   };
@@ -83,33 +87,28 @@ function Invoice({ dataFacturi, setDataFacturi }) {
   };
 
   const scoateProdus = (idToRemove) => {
-    setIndexFacturi(indexFacturi.filter((produs) => produs.id !== idToRemove));
+    setDataFactura([{...dataFactura[0], produse: [...dataFactura[0].produse.filter((produs) => produs.id !== idToRemove)]}]);
   };
 
-  // useEffect(() => {
-  //   localStorage.setItem('data', JSON.stringify(indexFacturi));
-  // }, [dataFacturi]);
-
-  // const loadSave = () => {
-  //   let data = JSON.parse(localStorage.getItem('data'));
-  //   setIndexFacturi(data);
-  // }
-
   useEffect(() => {
-    if (indexFacturi.length !== 0) {
-      localStorage.setItem("data", JSON.stringify(indexFacturi));
+    if (dataFactura[0].produse.length !== 0) {
+      localStorage.setItem("data", JSON.stringify(dataFactura));
     }
-  }, [dataFacturi]);
+  }, [dataFactura]);
 
   const loadSave = () => {
     let data = localStorage.getItem("data");
     data = JSON.parse(data);
-    setIndexFacturi(data);
+    if(data !== null && data !== undefined){
+      setDataFactura(data);
+    } 
   };
 
   useEffect(() => {
     loadSave();
   }, []);
+
+  console.log(dataFactura)
 
   return (
     <div id="fullComponent">
@@ -119,9 +118,9 @@ function Invoice({ dataFacturi, setDataFacturi }) {
             <div className="headerRow">
               <span>Furnizor:</span>
               <input
-                value={dataFactura[0].furnizor.denumire}
                 type="text"
                 id="furnizor"
+                value={dataFactura[0].furnizor.denumire}
                 onInput={(e) =>
                   salveazaDateFactura("furnizor", "denumire", e.target.value)
                 }
@@ -129,35 +128,51 @@ function Invoice({ dataFacturi, setDataFacturi }) {
             </div>
             <div className="headerRow">
               <span>Nr. ord. reg. com/an: </span>
-              <input type="text" id="nrRegistruFurnizor" />
+              <input type="text" id="nrRegistruFurnizor" value={dataFactura[0].furnizor.nrRegistruCom} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "nrRegistruCom", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>C.I.F</span>
-              <input type="text" id="cif" />
+              <input type="text" id="cif" value={dataFactura[0].furnizor.cif} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "cif", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Capital social:</span>
-              <input type="text" id="capSoc" />
+              <input type="text" id="capSoc" value={dataFactura[0].furnizor.capitalSocial} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "capitalSocial", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Sediul:</span>
-              <input type="text" id="sediulFurnizor" />
+              <input type="text" id="sediulFurnizor" value={dataFactura[0].furnizor.sediul} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "sediul", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Judetul:</span>
-              <input type="text" id="judetulFurnizor" />
+              <input type="text" id="judetulFurnizor" value={dataFactura[0].furnizor.judetul}onInput={(e) =>
+                  salveazaDateFactura("furnizor", "judetul", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Cod IBAN:</span>
-              <input type="text" id="ibanFurnizor" />
+              <input type="text" id="ibanFurnizor" value={dataFactura[0].furnizor.iban} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "iban", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Banca</span>
-              <input type="text" id="banca" />
+              <input type="text" id="banca" value={dataFactura[0].furnizor.banca} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "banca", e.target.value)
+                }/>
             </div>
             <div className="headerRow">
               <span>Cota T.V.A.:</span>
-              <input type="text" id="cotaTva" />
+              <input type="text" id="cotaTva" value={dataFactura[0].furnizor.cotaTva} onInput={(e) =>
+                  salveazaDateFactura("furnizor", "cotaTva", e.target.value)
+                }/>
             </div>
           </div>
           <div className="center">
@@ -166,7 +181,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <div className="headerRow">
                 <span>Nr. facturii</span>
                 <input
-                value={dataFactura[0].dateFactura.nrFactura}
                   type="text"
                   onInput={(e) =>
                     salveazaDateFactura(
@@ -326,11 +340,11 @@ function Invoice({ dataFacturi, setDataFacturi }) {
             </div>
           </div>
           <div className="contents">
-            {indexFacturi.map((produs) => {
+            {dataFactura[0].produse.map((produs, index) => {
               return (
                 <div className="bodyProdus" key={produs.id}>
                   <span className="nrCrt">
-                    {indexFacturi.indexOf(produs) + 1}
+                    {index + 1}
                   </span>
                   <span className="denumire text">
                     <textarea
@@ -392,100 +406,152 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <span>
                 Semnătura și <br /> ștampila furnizorului
               </span>
-              <div className='datePersoana'>
-              <div className='footerRow'>
-              <span>NUME</span>
-              <input
-                  type="text"
-                  onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "nume", e.target.value)
-                  }
-                />
+              <div className="datePersoana">
+                <div className="footerRow">
+                  <span>NUME</span>
+                  <input
+                    type="text"
+                    onInput={(e) =>
+                      salveazaDateFactura("dateFactura", "nume", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="footerRow">
+                  <span>PRENUME</span>
+                  <input
+                    type="text"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dateFactura",
+                        "prenume",
+                        e.target.value,
+                      )
+                    }
+                  />
+                </div>
+                <div className="footerRow">
+                  <span>B.I/C.I</span>
+                  <input
+                    type="text"
+                    onInput={(e) =>
+                      salveazaDateFactura("dateFactura", "ci", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="footerRow">
+                  <span>C.N.P</span>
+                  <input
+                    type="text"
+                    onInput={(e) =>
+                      salveazaDateFactura("dateFactura", "cnp", e.target.value)
+                    }
+                  />
+                </div>
               </div>
-              <div className='footerRow'>
-              <span>PRENUME</span>
-              <input
-                  type="text"
-                  onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "prenume", e.target.value)
-                  }
-                />
-              </div>
-              <div className='footerRow'>
-              <span>B.I/C.I</span>
-              <input
-                  type="text"
-                  onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "ci", e.target.value)
-                  }
-                />
-              </div>
-              <div className='footerRow'>
-              <span>C.N.P</span>
-              <input
-                  type="text"
-                  onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "cnp", e.target.value)
-                  }
-                />
-              </div>
-            </div>
             </div>
             <div className="expeditie">
               <span>Date privind expeditia:</span>
-              <div className='footerRow'>
-              <span>Numele delegatului:</span>
-              <input
+              <div className="footerRow">
+                <span>Numele delegatului:</span>
+                <input
                   type="text"
                   onInput={(e) =>
-                    salveazaDateFactura("dateExperditie", "nume", e.target.value)
+                    salveazaDateFactura(
+                      "dateExperditie",
+                      "nume",
+                      e.target.value,
+                    )
                   }
                 />
               </div>
-              <span>B.I/C.I seria <input
-                  type="text" className='serieCI'
+              <span>
+                B.I/C.I seria{" "}
+                <input
+                  type="text"
+                  className="serieCI"
                   onInput={(e) =>
-                    salveazaDateFactura("dateExpeditie", "serie", e.target.value)
-                  }
-                />, nr <input
-                  type="text" className='numarCI'
-                  onInput={(e) =>
-                    salveazaDateFactura("dateExpeditie", "numar", e.target.value)
+                    salveazaDateFactura(
+                      "dateExpeditie",
+                      "serie",
+                      e.target.value,
+                    )
                   }
                 />
-                , eliberat(ă) de<input
+                , nr{" "}
+                <input
+                  type="text"
+                  className="numarCI"
+                  onInput={(e) =>
+                    salveazaDateFactura(
+                      "dateExpeditie",
+                      "numar",
+                      e.target.value,
+                    )
+                  }
+                />
+                , eliberat(ă) de
+                <input
                   type="text"
                   onInput={(e) =>
-                    salveazaDateFactura("dateExpeditie", "eliberata", e.target.value)
+                    salveazaDateFactura(
+                      "dateExpeditie",
+                      "eliberata",
+                      e.target.value,
+                    )
                   }
-                /></span>
+                />
+              </span>
 
-                <div className='footerRow'>
-              <span>Mijlocul de transport</span>
-                  <input
+              <div className="footerRow">
+                <span>Mijlocul de transport</span>
+                <input
                   type="text"
                   onInput={(e) =>
-                    salveazaDateFactura("dateExpeditie", "mijlocTransport", e.target.value)
+                    salveazaDateFactura(
+                      "dateExpeditie",
+                      "mijlocTransport",
+                      e.target.value,
+                    )
                   }
-                /> nr <input
+                />{" "}
+                nr{" "}
+                <input
                   type="text"
                   onInput={(e) =>
-                    salveazaDateFactura("dateExpeditie", "mijlocTransportNr", e.target.value)
+                    salveazaDateFactura(
+                      "dateExpeditie",
+                      "mijlocTransportNr",
+                      e.target.value,
+                    )
                   }
                 />
-                </div>
+              </div>
               <span>
                 Expedierea s-a facut in prezenta noastra la, <br />
-                data de<input
-                  type="text" className='dataExpediere'
+                data de
+                <input
+                  type="text"
+                  className="dataExpediere"
                   onInput={(e) =>
-                    salveazaDateFactura("dataExpeditie", "dataExpediere", e.target.value)
+                    salveazaDateFactura(
+                      "dataExpeditie",
+                      "dataExpediere",
+                      e.target.value,
+                    )
                   }
-                /> ora <input
-                  type="text" className='oraExpediere'
+                />{" "}
+                ora{" "}
+                <input
+                  type="text"
+                  className="oraExpediere"
                   onInput={(e) =>
-                    salveazaDateFactura("dataExpeditie", "oraExpediere", e.target.value)
-                  }/>
+                    salveazaDateFactura(
+                      "dataExpeditie",
+                      "oraExpediere",
+                      e.target.value,
+                    )
+                  }
+                />
               </span>
               <span>Semnaturile</span>
             </div>
