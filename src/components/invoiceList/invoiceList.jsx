@@ -24,7 +24,7 @@ function InvoiceList({ array, setArray }) {
       {array?.map((factura, index) => {
         return <button className='butonLista' key={index} onClick={() => loadFactura(index)}><span className='nrFactura'>{index + 1}</span><span className='numeFactura'>{factura?.cumparator?.denumire}</span></button>
       })}
-      <button className='stergeLista' onClick={() => deleteFacturi()}>Șterge lista</button>
+      <button className='stergeLista' onClick={() => deleteFacturi()}>Șterge întreaga listă</button>
     </div>
   );
 }

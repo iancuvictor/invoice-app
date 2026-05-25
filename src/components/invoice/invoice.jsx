@@ -91,10 +91,16 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     if (dataFactura[0].dateFactura.nrFactura !== 0 && result !== true) {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
     } else if (dataFacturi.length !== 0 && result === true) {
-      if(confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)){
-      let newArray = dataFacturi.filter((facturi) => dataFacturi.indexOf(facturi) !== 0)
-      newArray.splice(0, 0, dataFactura[0]);
-      setDataFacturi(newArray)
+      if (
+        confirm(
+          `Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`,
+        )
+      ) {
+        let newArray = dataFacturi.filter(
+          (facturi) => dataFacturi.indexOf(facturi) !== 0,
+        );
+        newArray.splice(0, 0, dataFactura[0]);
+        setDataFacturi(newArray);
       }
     } else if (dataFactura[0].dateFactura.nrFactura === 0) {
       alert("Trebuie să introduci numărul facturii.");
@@ -664,20 +670,20 @@ function Invoice({ dataFacturi, setDataFacturi }) {
             </div>
           </div>
         </div>
-      </div>
-      <div className="buttons">
-        <button className="noprint" onClick={adaugaProdus}>
-          Adaugă produs
-        </button>
-        <button className="noprint" onClick={salveazaDate}>
-          Salvează factura
-        </button>
-        {/* <button className="noprint" onClick={loadSave}>
+        <div className="buttons">
+          <button className="noprint" onClick={adaugaProdus}>
+            Adaugă produs
+          </button>
+          <button className="noprint" onClick={salveazaDate}>
+            Salvează factura
+          </button>
+          {/* <button className="noprint" onClick={loadSave}>
           Load save
         </button> */}
-        <button className="noprint" onClick={() => window.print()}>
-          Printează
-        </button>
+          <button className="noprint" onClick={() => window.print()}>
+            Printează
+          </button>
+        </div>
       </div>
     </div>
   );

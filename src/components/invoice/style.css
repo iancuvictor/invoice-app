@@ -205,12 +205,10 @@
 }
 
 .buttons {
-  position: absolute;
-  top: 50px;
-  right: 50px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
+  padding-top: 10px;
 }
 
 .buttons button {
