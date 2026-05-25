@@ -3,42 +3,44 @@ import "./style.css";
 
 function Invoice({ dataFacturi, setDataFacturi }) {
   let [dataFactura, setDataFactura] = useState(() => {
-    const saved = localStorage.getItem('data');
-    return saved ? JSON.parse(saved) :
-    [
-    {
-      furnizor: {
-        denumire: "",
-        nrRegistruCom: "",
-        cif: "",
-        capitalSocial: "",
-        sediul: "",
-        judetul: "",
-        iban: "",
-        banca: "",
-        cotaTva: "",
-      },
+    const saved = localStorage.getItem("data");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            furnizor: {
+              denumire: "",
+              nrRegistruCom: "",
+              cif: "",
+              capitalSocial: "",
+              sediul: "",
+              judetul: "",
+              iban: "",
+              banca: "",
+              cotaTva: "",
+            },
 
-      cumparator: {
-        seria: "",
-        denumire: "",
-        nrRegistruCom: "",
-        cif: "",
-        sediul: "",
-        judetul: "",
-        iban: "",
-        banca: "",
-      },
+            cumparator: {
+              seria: "",
+              denumire: "",
+              nrRegistruCom: "",
+              cif: "",
+              sediul: "",
+              judetul: "",
+              iban: "",
+              banca: "",
+            },
 
-      produse: [],
+            produse: [],
 
-      dateFactura: {
-        nrFactura: 0,
-        data: "",
-        nrAviz: 0,
-      },
-    },
-  ]});
+            dateFactura: {
+              nrFactura: 0,
+              data: "",
+              nrAviz: 0,
+            },
+          },
+        ];
+  });
 
   const salveazaDateFactura = (sectie, field, newValue) => {
     setDataFactura(
@@ -49,18 +51,18 @@ function Invoice({ dataFacturi, setDataFacturi }) {
         };
       }),
     );
-    console.log(dataFactura)
+    console.log(dataFactura);
   };
-  
+
   const updateFactura = (id, field, newValue) => {
     setDataFactura([
       {
         ...dataFactura[0],
         produse: dataFactura[0].produse.map((produs) => {
-          if(produs.id === id){
-            return {...produs, [field]: newValue}
+          if (produs.id === id) {
+            return { ...produs, [field]: newValue };
           } else {
-            return produs
+            return produs;
           }
         }),
       },
@@ -68,7 +70,35 @@ function Invoice({ dataFacturi, setDataFacturi }) {
   };
 
   const salveazaDate = () => {
-    setDataFacturi([dataFactura[0], ...dataFacturi]);
+    function checkAvailability() {
+      if (dataFacturi.length > 0) {
+        for (let facturi of dataFacturi) {
+          if (
+            facturi.dateFactura.nrFactura ===
+            dataFactura[0].dateFactura.nrFactura
+          ) {
+            console.log(true);
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
+
+    let result = checkAvailability();
+
+    if (dataFactura[0].dateFactura.nrFactura !== 0 && result !== true) {
+      setDataFacturi([dataFactura[0], ...dataFacturi]);
+    } else if (dataFacturi.length !== 0 && result === true) {
+      if(confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)){
+      let newArray = dataFacturi.filter((facturi) => dataFacturi.indexOf(facturi) !== 0)
+      newArray.splice(0, 0, dataFactura[0]);
+      setDataFacturi(newArray)
+      }
+    } else if (dataFactura[0].dateFactura.nrFactura === 0) {
+      alert("Trebuie să introduci numărul facturii.");
+    }
   };
 
   const adaugaProdus = () => {
@@ -91,7 +121,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     ]);
   };
 
-
   const scoateProdus = (idToRemove) => {
     setDataFactura([
       {
@@ -112,15 +141,15 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     }
   }, [dataFactura]);
 
+  useEffect(() => {
+    if (dataFacturi.length !== 0) {
+      setDataFactura([dataFacturi[0]]);
+    }
+  }, [dataFacturi]);
+
   const loadSave = () => {
-    let data = localStorage.getItem("data");
-    data = JSON.parse(data);
-    let dateFacturi = localStorage.getItem("dateFacturi");
-    dateFacturi = JSON.parse(dateFacturi);
+    let data = JSON.parse(localStorage.getItem("data"));
     setDataFactura(data);
-    setDataFacturi(dateFacturi);
-    // if (data !== null && data !== undefined) {
-    // }
   };
 
   useEffect(() => {
@@ -246,6 +275,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <div className="headerRow">
                 <span>Nr. facturii</span>
                 <input
+                  value={dataFactura[0].dateFactura.nrFactura}
                   type="text"
                   onInput={(e) =>
                     salveazaDateFactura(
