@@ -92,7 +92,7 @@
 .denumire {
   width: 44%;
   box-sizing: border-box;
-  padding: 0px 10px 0px 10px;
+  padding-right: 5px;
 }
 
 .um {
@@ -117,14 +117,14 @@
 }
 
 .valoareLei {
-  width: 13%;
+  width: 11.5%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .valoareTva {
-  width: 10%;
+  width: 11.5%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,12 +144,14 @@
   flex-direction: row;
   align-items: stretch;
   width: 100%;
+  min-height: 30px;
 }
 
 .bodyProdus span {
   outline: 1px solid black;
   outline-offset: -1px;
   text-align: center;
+
 }
 
 .bodyProdus .text {
@@ -163,6 +165,10 @@
   resize: none;
   outline: none;
   border: none;
+  box-sizing: border-box;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
 
 .bodyProdus input {
@@ -292,6 +298,88 @@
 .bodyFooter input{
   margin: 0;
   padding: 0 2px 0 2px;
+}
+
+.accize{
+  width: 35%;
+  display: flex;
+  flex-direction: row;
+}
+
+.accize .stanga{
+  padding: 0;
+  width: 34.3%;
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid black;
+  outline-offset: -1px;
+
+}
+
+.accize .dreapta{
+  padding: 0;
+  width: 65.7%;
+  display: flex;
+  flex-direction: column;
+  outline: 1px solid black;
+  outline-offset: -1px;
+}
+
+.accize .dreapta .totaluri{
+  height: 40%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  outline: 1px solid black;
+  outline-offset: -1px;
+}
+
+.totalDePlata{
+  height: 60%;
+  width: 100%;
+  display: flex;
+  justify-content: baseline;
+  align-items: baseline;
+  padding-top: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  outline: 1px solid black;
+  outline-offset: -1px;
+}
+
+.accize .dreapta .totaluri .inputTotal{
+  outline: 1px solid black;
+  outline-offset: -1px;
+  border: none;
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.totalAccize{
+  height: 40%;
+  width: 100%;
+  outline: 1px solid black;
+  outline-offset: -1px;
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.accize .stanga .semnaturaPrimire {
+  height: 60%;
+  width: 100%;
+  outline: 1px solid black;
+  outline-offset: -1px;
+  display: flex;
+  justify-content: baseline;
+  align-items: baseline;
+  padding-left: 10px;
+  padding-top: 10px;
+  box-sizing: border-box;
 }
 
 @media print {

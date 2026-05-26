@@ -666,6 +666,21 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               </span>
               <span>Semnaturile</span>
             </div>
+            <div className="accize">
+              <div className='stanga'>
+              <span className='totalAccize'>Total <br /> din care: <br /> accize</span>
+              <span className='semnaturaPrimire'>Semnătura <br /> de primire</span>
+              </div>
+              <div className='dreapta'>
+                <div className='totaluri'>
+                <input className='inputTotal' type="text" name="" id="" />
+                <input className='inputTotal' type="text" name="" id="" />
+                <input className='inputTotal' type="text" name="" id="" />
+                <input className='inputTotal' type="text" name="" id="" />
+                </div>
+                <span className="totalDePlata">Total de plată <br />(col.5 + col.6)</span>
+              </div>
+            </div>
           </div>
         </div>
         <div className="buttons">
