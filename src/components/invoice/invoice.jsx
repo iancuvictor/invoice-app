@@ -89,7 +89,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
         )
       ) {
         let newArray = dataFacturi.filter(
-          (facturi) => dataFacturi.indexOf(facturi) !== 0,
+          (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
         );
         newArray.splice(0, 0, dataFactura[0]);
         setDataFacturi(newArray);
@@ -162,7 +162,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
           totalSum += +valoareTva;
         }
       }
-      return totalSum.toFixed(2);
+      return totalSum;
     }
   };
   // useEffect(() => {
@@ -326,7 +326,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                 <span>Nr. facturii</span>
                 <input
                   value={dataFactura[0].dateFactura.nrFactura}
-                  type="text"
+                  type="number"
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateFactura",
@@ -339,7 +339,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <div className="headerRow">
                 <span>Data (ziua, luna, anul) </span>
                 <input
-                  type="text"
+                  type="number"
                   onInput={(e) =>
                     salveazaDateFactura("dateFactura", "data", e.target.value)
                   }
@@ -348,7 +348,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <div className="headerRow">
                 <span>Nr. aviz insotire a marfii </span>
                 <input
-                  type="text"
+                  type="number"
                   onInput={(e) =>
                     salveazaDateFactura("dateFactura", "nrAviz", e.target.value)
                   }
@@ -514,7 +514,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     />
                   </span>
                   <span className="um text">
-                    <textarea rows={1} value="buc" />
+                    <textarea rows={1} defaultValue="buc" />
                   </span>
                   <span className="cantitate text">
                     <input
@@ -754,11 +754,13 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     className="inputTotal"
                     type="number"
                     value={calcTotal("valoareLei")}
+                    readOnly
                   />
                   <input
                     className="inputTotal"
                     type="number"
                     value={calcTotal("valoareTva")}
+                    readOnly
                   />
                   <input className="inputTotal" type="text" />
                   <input className="inputTotal" type="text" />
@@ -769,8 +771,8 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     (col.5 + col.6)
                   </span>
                   <span className="totalDePlataNr">
-                    {+calcTotal("valoareLei") +
-                      +calcTotal("valoareTva") +
+                    {(+calcTotal("valoareLei") +
+                      +calcTotal("valoareTva")).toFixed(2) +
                       " lei"}
                   </span>
                 </span>

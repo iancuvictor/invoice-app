@@ -22,10 +22,14 @@ function InvoiceList({ array, setArray }) {
   //     setArray([...array, data]);
   //   }, [])
 
+  const searchFacturi = (array) => {
+    array.sort();
+  }
+
   return (
     <div id="body">
       <h1>LISTA FACTURI</h1>
-      <input type="text" name="" id="" />
+      <input type='text' onChange={() => searchFacturi()}/>
       {array?.map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
