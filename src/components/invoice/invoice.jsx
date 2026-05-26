@@ -70,15 +70,11 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     function checkAvailability() {
       if (dataFacturi.length > 0) {
         for (let facturi of dataFacturi) {
-          if (
-            facturi.dateFactura.nrFactura ===
-            dataFactura[0].dateFactura.nrFactura
-          ) {
+          if (facturi.dateFactura.nrFactura === dataFactura[0].dateFactura.nrFactura) {
             return true;
-          } else {
-            return false;
           }
         }
+        return false;
       }
     }
 
@@ -156,50 +152,63 @@ function Invoice({ dataFacturi, setDataFacturi }) {
 
   const calcTotal = (column) => {
     let totalSum = 0;
-    if(dataFactura[0].produse.length > 0){
+    if (dataFactura[0].produse.length > 0) {
       for (let produs of dataFactura[0].produse) {
-        if(column === 'valoareLei'){
+        if (column === "valoareLei") {
           let valoareLei = produs.cantitate * produs.pretUnitar;
           totalSum += +valoareLei;
-        } else if(column === 'valoareTva'){
-          let valoareTva = (produs.cantitate * produs.pretUnitar) * (21/100);
+        } else if (column === "valoareTva") {
+          let valoareTva = produs.cantitate * produs.pretUnitar * (21 / 100);
           totalSum += +valoareTva;
         }
       }
       return totalSum.toFixed(2);
-    };
-  }
-  useEffect(() => {
-    loadSave();
-  }, []);
+    }
+  };
+  // useEffect(() => {
+  //   loadSave();
+  // }, []);
 
   //listener for keyboard
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-        if(e.ctrlKey && e.key === 's'){
-            e.preventDefault();
-            salveazaDate();
-        } else if(e.ctrlKey && e.key === 'a'){
-            e.preventDefault();
-            adaugaProdus();
-        } else if(e.ctrlKey && e.key === 'x'){
-            e.preventDefault();
-            setDataFactura([obj])
-            
-        }
-    }
-    
-    document.addEventListener('keydown', handleKeyDown);
-    
+      if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+        salveazaDate();
+      } else if (e.ctrlKey && e.key === "a") {
+        e.preventDefault();
+        adaugaProdus();
+      } else if (e.ctrlKey && e.key === "x") {
+        e.preventDefault();
+        setDataFactura([obj]);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
-        document.removeEventListener('keydown', handleKeyDown);
-    }
-}, [dataFactura]);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [dataFactura]);
 
   return (
     <div id="fullComponent">
       <div id="invoiceBody">
+        <div className="buttons noprint">
+          <button className="noprint" onClick={adaugaProdus}>
+            Adaugă produs
+          </button>
+          <button className="noprint" onClick={salveazaDate}>
+            Salvează factura
+          </button>
+          <button className="noprint" onClick={() => window.print()}>
+            Printează
+          </button>
+          <button className="noprint" onClick={() => setDataFactura([obj])}>
+            Factură nouă
+          </button>
+        </div>
         <div id="header">
           <div className="seller">
             <div className="headerRow">
@@ -505,7 +514,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     />
                   </span>
                   <span className="um text">
-                    <textarea rows={1} defaultValue="buc" />
+                    <textarea rows={1} value="buc" />
                   </span>
                   <span className="cantitate text">
                     <input
@@ -534,9 +543,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span className="valoareLei text">
                     <input
                       type="number"
-                      value={
-                        produs.cantitate * produs.pretUnitar.toFixed(2)
-                      }
+                      value={produs.cantitate * produs.pretUnitar.toFixed(2)}
                       readOnly
                     />
                   </span>
@@ -552,7 +559,11 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   </span>
                   <button
                     className="removeButton noprint"
-                    onClick={() => scoateProdus(produs.id)}
+                    onClick={() => {
+                      calcTotal("valoareLei");
+                      calcTotal("valoareTva");
+                      scoateProdus(produs.id);
+                    }}
                   >
                     X
                   </button>
@@ -570,7 +581,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>NUME</span>
                   <input
                     type="text"
-                    className='regularInput'
+                    className="regularInput"
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "nume", e.target.value)
                     }
@@ -580,7 +591,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>PRENUME</span>
                   <input
                     type="text"
-                    className='regularInput'
+                    className="regularInput"
                     onInput={(e) =>
                       salveazaDateFactura(
                         "dateFactura",
@@ -594,7 +605,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>B.I/C.I</span>
                   <input
                     type="text"
-                    className='regularInput'
+                    className="regularInput"
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "ci", e.target.value)
                     }
@@ -604,7 +615,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>C.N.P</span>
                   <input
                     type="text"
-                    className='regularInput'
+                    className="regularInput"
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "cnp", e.target.value)
                     }
@@ -613,14 +624,14 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               </div>
             </div>
             <div className="expeditie">
-              <div className='footerRow'>
-              <span>Date privind expeditia:</span>
+              <div className="footerRow">
+                <span>Date privind expeditia:</span>
               </div>
               <div className="footerRow">
                 <span>Numele delegatului:</span>
                 <input
                   type="text"
-                  className='regularInput'
+                  className="regularInput"
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExperditie",
@@ -630,52 +641,52 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   }
                 />
               </div>
-              <div className='footerRow'>
-              <span>
-                B.I/C.I seria{" "}
-                <input
-                  type="text"
-                  className="serieCI"
-                  onInput={(e) =>
-                    salveazaDateFactura(
-                      "dateExpeditie",
-                      "serie",
-                      e.target.value,
-                    )
-                  }
-                />
-                , nr{" "}
-                <input
-                  type="text"
-                  className="numarCI"
-                  onInput={(e) =>
-                    salveazaDateFactura(
-                      "dateExpeditie",
-                      "numar",
-                      e.target.value,
-                    )
-                  }
-                />
-                , <br /> eliberat(ă) de
-                <input
-                  type="text"
-                  className='eliberataDe'
-                  onInput={(e) =>
-                    salveazaDateFactura(
-                      "dateExpeditie",
-                      "eliberata",
-                      e.target.value,
-                    )
-                  }
-                />
-              </span>
+              <div className="footerRow">
+                <span>
+                  B.I/C.I seria{" "}
+                  <input
+                    type="text"
+                    className="serieCI"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dateExpeditie",
+                        "serie",
+                        e.target.value,
+                      )
+                    }
+                  />
+                  , nr{" "}
+                  <input
+                    type="text"
+                    className="numarCI"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dateExpeditie",
+                        "numar",
+                        e.target.value,
+                      )
+                    }
+                  />
+                  , <br /> eliberat(ă) de
+                  <input
+                    type="text"
+                    className="eliberataDe"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dateExpeditie",
+                        "eliberata",
+                        e.target.value,
+                      )
+                    }
+                  />
+                </span>
               </div>
 
               <div className="footerRow">
                 <span>Mijlocul de transport</span>
                 <input
                   type="text"
-                  className='regularInput'
+                  className="regularInput"
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExpeditie",
@@ -687,7 +698,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                 nr{" "}
                 <input
                   type="text"
-                  className='regularInput'
+                  className="regularInput"
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExpeditie",
@@ -697,36 +708,35 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   }
                 />
               </div>
-              <div className='footerRow'>
-
-              <span>
-                Expedierea s-a facut in prezenta noastra la, <br />
-                data de
-                <input
-                  type="text"
-                  className="dataExpediere"
-                  onInput={(e) =>
-                    salveazaDateFactura(
-                      "dataExpeditie",
-                      "dataExpediere",
-                      e.target.value,
-                    )
-                  }
+              <div className="footerRow">
+                <span>
+                  Expedierea s-a facut in prezenta noastra la, <br />
+                  data de
+                  <input
+                    type="text"
+                    className="dataExpediere"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dataExpeditie",
+                        "dataExpediere",
+                        e.target.value,
+                      )
+                    }
                   />{" "}
-                ora{" "}
-                <input
-                  type="text"
-                  className="oraExpediere"
-                  onInput={(e) =>
-                    salveazaDateFactura(
-                      "dataExpeditie",
-                      "oraExpediere",
-                      e.target.value,
-                    )
-                  }
+                  ora{" "}
+                  <input
+                    type="text"
+                    className="oraExpediere"
+                    onInput={(e) =>
+                      salveazaDateFactura(
+                        "dataExpeditie",
+                        "oraExpediere",
+                        e.target.value,
+                      )
+                    }
                   />
-              </span>
-                  </div>
+                </span>
+              </div>
               <span>Semnaturile</span>
             </div>
             <div className="accize">
@@ -740,35 +750,33 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               </div>
               <div className="dreapta">
                 <div className="totaluri">
-                  <input className="inputTotal" type="number" value={calcTotal('valoareLei')}/>
-                  <input className="inputTotal" type="number" value={calcTotal('valoareTva')}/>
+                  <input
+                    className="inputTotal"
+                    type="number"
+                    value={calcTotal("valoareLei")}
+                  />
+                  <input
+                    className="inputTotal"
+                    type="number"
+                    value={calcTotal("valoareTva")}
+                  />
                   <input className="inputTotal" type="text" />
                   <input className="inputTotal" type="text" />
                 </div>
                 <span className="totalDePlata">
                   <span>
-                  Total de plată <br />
-                  (col.5 + col.6)
+                    Total de plată <br />
+                    (col.5 + col.6)
                   </span>
-                  <span className='totalDePlataNr'>{+calcTotal('valoareLei') + +calcTotal('valoareTva') + ' lei'}</span>
+                  <span className="totalDePlataNr">
+                    {+calcTotal("valoareLei") +
+                      +calcTotal("valoareTva") +
+                      " lei"}
+                  </span>
                 </span>
               </div>
             </div>
           </div>
-        </div>
-        <div className="buttons">
-          <button className="noprint" onClick={adaugaProdus}>
-            Adaugă produs
-          </button>
-          <button className="noprint" onClick={salveazaDate}>
-            Salvează factura
-          </button>
-          <button className="noprint" onClick={() => window.print()}>
-            Printează
-          </button>
-          <button className="noprint" onClick={() => setDataFactura([obj])}>
-            Factură nouă
-          </button>
         </div>
       </div>
       {/* <Alert /> */}

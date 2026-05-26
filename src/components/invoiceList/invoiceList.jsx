@@ -25,6 +25,7 @@ function InvoiceList({ array, setArray }) {
   return (
     <div id="body">
       <h1>LISTA FACTURI</h1>
+      <input type="text" name="" id="" />
       {array?.map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
