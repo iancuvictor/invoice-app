@@ -1,9 +1,9 @@
 import './style.css';
 
-function Alert({ type }) {
-    return <>
-    <div id='alertBody'>Factura exista deja</div>
-    </>
+function Alert({ text, type }) {
+    return <div id='alertWrapper'>
+    <div id='alertBody' className={type}>{text}</div>
+    </div>
 }
 
 export default Alert;

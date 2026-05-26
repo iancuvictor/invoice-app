@@ -10,6 +10,47 @@ body {
   left: 20px;
 }
 
+.respErrorDesktop, .respErrorMobile{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+@media screen and (min-width: 500px) and (max-width: 1000px){
+  #invoice{
+    display: none;
+  }
+
+  #invoiceList{
+    display: none;
+  }
+
+  .respErrorDesktop{
+    display: flex;
+    justify-content: center;
+  align-items: center;
+  }
+}
+
+@media screen and (max-width: 499.98px){
+  #invoice{
+    display: none;
+  }
+
+  #invoiceList{
+    display: none;
+  }
+
+  .respErrorMobile{
+    display: flex;
+  }
+}
+
+
+
 @media print{
   @page {
     size: auto;   /* Auto este valoarea inițială */

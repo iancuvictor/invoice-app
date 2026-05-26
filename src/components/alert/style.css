@@ -1,6 +1,18 @@
+#alertWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #alertBody{
-    position: fixed;
-    top: 0px;
-    
-    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 50px 20px 50px;
+}
+
+.error{
+    color: white;
+    background-color: #DB1236;
+    border-radius: 5px;
 }
