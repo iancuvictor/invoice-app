@@ -49,7 +49,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
         };
       }),
     );
-    console.log(dataFactura);
   };
 
   const updateFactura = (id, field, newValue) => {
@@ -75,7 +74,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
             facturi.dateFactura.nrFactura ===
             dataFactura[0].dateFactura.nrFactura
           ) {
-            console.log(true);
             return true;
           } else {
             return false;
@@ -156,9 +154,48 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     setDataFactura(data);
   };
 
+  const calcTotal = (column) => {
+    let totalSum = 0;
+    if(dataFactura[0].produse.length > 0){
+      for (let produs of dataFactura[0].produse) {
+        if(column === 'valoareLei'){
+          let valoareLei = produs.cantitate * produs.pretUnitar;
+          totalSum += +valoareLei;
+        } else if(column === 'valoareTva'){
+          let valoareTva = (produs.cantitate * produs.pretUnitar) * (21/100);
+          totalSum += +valoareTva;
+        }
+      }
+      return totalSum.toFixed(2);
+    };
+  }
   useEffect(() => {
     loadSave();
   }, []);
+
+  //listener for keyboard
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+        if(e.ctrlKey && e.key === 's'){
+            e.preventDefault();
+            salveazaDate();
+        } else if(e.ctrlKey && e.key === 'a'){
+            e.preventDefault();
+            adaugaProdus();
+        } else if(e.ctrlKey && e.key === 'x'){
+            e.preventDefault();
+            setDataFactura([obj])
+            
+        }
+    }
+    
+    document.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+    }
+}, [dataFactura]);
 
   return (
     <div id="fullComponent">
@@ -472,9 +509,10 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   </span>
                   <span className="cantitate text">
                     <input
-                      onChange={(e) =>
-                        updateFactura(produs.id, "cantitate", +e.target.value)
-                      }
+                      onChange={(e) => {
+                        calcTotal("valoareLei");
+                        updateFactura(produs.id, "cantitate", +e.target.value);
+                      }}
                       type="number"
                       name=""
                       id="cantitate"
@@ -483,9 +521,10 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   </span>
                   <span className="pretUnitar text">
                     <input
-                      onChange={(e) =>
-                        updateFactura(produs.id, "pretUnitar", +e.target.value)
-                      }
+                      onChange={(e) => {
+                        calcTotal("valoareLei");
+                        updateFactura(produs.id, "pretUnitar", +e.target.value);
+                      }}
                       type="number"
                       name=""
                       id="pretUnitar"
@@ -493,14 +532,23 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     />
                   </span>
                   <span className="valoareLei text">
-                    {produs.cantitate * produs.pretUnitar.toFixed(2) +
-                      (produs.cantitate * produs.pretUnitar * 21) / 100}
+                    <input
+                      type="number"
+                      value={
+                        produs.cantitate * produs.pretUnitar.toFixed(2)
+                      }
+                      readOnly
+                    />
                   </span>
                   <span className="valoareTva text">
-                    {(
-                      (produs.cantitate * produs.pretUnitar * 21) /
-                      100
-                    ).toFixed(2)}
+                    <input
+                      type="number"
+                      value={(
+                        (produs.cantitate * produs.pretUnitar * 21) /
+                        100
+                      ).toFixed(2)}
+                      readOnly
+                    />
                   </span>
                   <button
                     className="removeButton noprint"
@@ -522,6 +570,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>NUME</span>
                   <input
                     type="text"
+                    className='regularInput'
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "nume", e.target.value)
                     }
@@ -531,6 +580,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>PRENUME</span>
                   <input
                     type="text"
+                    className='regularInput'
                     onInput={(e) =>
                       salveazaDateFactura(
                         "dateFactura",
@@ -544,6 +594,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>B.I/C.I</span>
                   <input
                     type="text"
+                    className='regularInput'
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "ci", e.target.value)
                     }
@@ -553,6 +604,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <span>C.N.P</span>
                   <input
                     type="text"
+                    className='regularInput'
                     onInput={(e) =>
                       salveazaDateFactura("dateFactura", "cnp", e.target.value)
                     }
@@ -561,11 +613,14 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               </div>
             </div>
             <div className="expeditie">
+              <div className='footerRow'>
               <span>Date privind expeditia:</span>
+              </div>
               <div className="footerRow">
                 <span>Numele delegatului:</span>
                 <input
                   type="text"
+                  className='regularInput'
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExperditie",
@@ -575,6 +630,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   }
                 />
               </div>
+              <div className='footerRow'>
               <span>
                 B.I/C.I seria{" "}
                 <input
@@ -600,9 +656,10 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     )
                   }
                 />
-                , eliberat(ă) de
+                , <br /> eliberat(ă) de
                 <input
                   type="text"
+                  className='eliberataDe'
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExpeditie",
@@ -612,11 +669,13 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   }
                 />
               </span>
+              </div>
 
               <div className="footerRow">
                 <span>Mijlocul de transport</span>
                 <input
                   type="text"
+                  className='regularInput'
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExpeditie",
@@ -628,6 +687,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                 nr{" "}
                 <input
                   type="text"
+                  className='regularInput'
                   onInput={(e) =>
                     salveazaDateFactura(
                       "dateExpeditie",
@@ -637,6 +697,8 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   }
                 />
               </div>
+              <div className='footerRow'>
+
               <span>
                 Expedierea s-a facut in prezenta noastra la, <br />
                 data de
@@ -650,7 +712,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                       e.target.value,
                     )
                   }
-                />{" "}
+                  />{" "}
                 ora{" "}
                 <input
                   type="text"
@@ -662,23 +724,34 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                       e.target.value,
                     )
                   }
-                />
+                  />
               </span>
+                  </div>
               <span>Semnaturile</span>
             </div>
             <div className="accize">
-              <div className='stanga'>
-              <span className='totalAccize'>Total <br /> din care: <br /> accize</span>
-              <span className='semnaturaPrimire'>Semnătura <br /> de primire</span>
+              <div className="stanga">
+                <span className="totalAccize">
+                  Total <br /> din care: <br /> accize
+                </span>
+                <span className="semnaturaPrimire">
+                  Semnătura <br /> de primire
+                </span>
               </div>
-              <div className='dreapta'>
-                <div className='totaluri'>
-                <input className='inputTotal' type="text" name="" id="" />
-                <input className='inputTotal' type="text" name="" id="" />
-                <input className='inputTotal' type="text" name="" id="" />
-                <input className='inputTotal' type="text" name="" id="" />
+              <div className="dreapta">
+                <div className="totaluri">
+                  <input className="inputTotal" type="number" value={calcTotal('valoareLei')}/>
+                  <input className="inputTotal" type="number" value={calcTotal('valoareTva')}/>
+                  <input className="inputTotal" type="text" />
+                  <input className="inputTotal" type="text" />
                 </div>
-                <span className="totalDePlata">Total de plată <br />(col.5 + col.6)</span>
+                <span className="totalDePlata">
+                  <span>
+                  Total de plată <br />
+                  (col.5 + col.6)
+                  </span>
+                  <span className='totalDePlataNr'>{+calcTotal('valoareLei') + +calcTotal('valoareTva') + ' lei'}</span>
+                </span>
               </div>
             </div>
           </div>

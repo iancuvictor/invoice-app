@@ -186,7 +186,7 @@
   outline: 2px solid black;
   outline-offset: -1px;
   font-size: 12px;
-  height: 170px;
+  height: 150px;
 }
 
 .semnatura,
@@ -263,16 +263,18 @@
   flex-direction: row;
   overflow: hidden;
   gap: 10px;
+  font-size: 12px;
 }
 
 .footerRow span {
   white-space: nowrap;
 }
 
-.footerRow input{
+.footerRow .regularInput{
   flex: 1;
-  min-width: 0;
+  min-width: 0px;
   width: 0;
+  font-size: 12px;
 }
 
 .info{
@@ -280,11 +282,18 @@
 }
 
 .serieCI{
-  width: 25px;
+  width: 20px;
+  font-size: 12px;
 }
 
 .numarCI{
-  width: 50px;
+  width: 45px;
+  font-size: 12px;
+}
+
+.eliberataDe{
+  width: 140px;
+  font-size: 12px;
 }
 
 .dataExpediere{
@@ -313,6 +322,7 @@
   flex-direction: column;
   outline: 1px solid black;
   outline-offset: -1px;
+  font-size: 14px;
 
 }
 
@@ -337,8 +347,10 @@
 .totalDePlata{
   height: 60%;
   width: 100%;
+  font-size: 12px;
   display: flex;
-  justify-content: baseline;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: baseline;
   padding-top: 10px;
   padding-left: 10px;
@@ -381,6 +393,12 @@
   padding-top: 10px;
   box-sizing: border-box;
 }
+
+.totalDePlataNr{
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
 
 @media print {
   .noprint {
