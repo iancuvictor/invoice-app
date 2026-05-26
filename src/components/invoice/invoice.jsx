@@ -1,45 +1,43 @@
 import { useEffect, useState } from "react";
+import { Alert } from "../../components";
 import "./style.css";
 
 function Invoice({ dataFacturi, setDataFacturi }) {
+  let obj = {
+    furnizor: {
+      denumire: "",
+      nrRegistruCom: "",
+      cif: "",
+      capitalSocial: "",
+      sediul: "",
+      judetul: "",
+      iban: "",
+      banca: "",
+      cotaTva: "",
+    },
+
+    cumparator: {
+      seria: "",
+      denumire: "",
+      nrRegistruCom: "",
+      cif: "",
+      sediul: "",
+      judetul: "",
+      iban: "",
+      banca: "",
+    },
+
+    produse: [],
+
+    dateFactura: {
+      nrFactura: 0,
+      data: "",
+      nrAviz: 0,
+    },
+  };
   let [dataFactura, setDataFactura] = useState(() => {
     const saved = localStorage.getItem("data");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            furnizor: {
-              denumire: "",
-              nrRegistruCom: "",
-              cif: "",
-              capitalSocial: "",
-              sediul: "",
-              judetul: "",
-              iban: "",
-              banca: "",
-              cotaTva: "",
-            },
-
-            cumparator: {
-              seria: "",
-              denumire: "",
-              nrRegistruCom: "",
-              cif: "",
-              sediul: "",
-              judetul: "",
-              iban: "",
-              banca: "",
-            },
-
-            produse: [],
-
-            dateFactura: {
-              nrFactura: 0,
-              data: "",
-              nrAviz: 0,
-            },
-          },
-        ];
+    return saved ? JSON.parse(saved) : [obj];
   });
 
   const salveazaDateFactura = (sectie, field, newValue) => {
@@ -677,14 +675,15 @@ function Invoice({ dataFacturi, setDataFacturi }) {
           <button className="noprint" onClick={salveazaDate}>
             Salvează factura
           </button>
-          {/* <button className="noprint" onClick={loadSave}>
-          Load save
-        </button> */}
           <button className="noprint" onClick={() => window.print()}>
             Printează
           </button>
+          <button className="noprint" onClick={() => setDataFactura([obj])}>
+            Factură nouă
+          </button>
         </div>
       </div>
+      {/* <Alert /> */}
     </div>
   );
 }
