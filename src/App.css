@@ -27,6 +27,8 @@ body {
 @media screen and (min-width: 1300px) and (max-width: 1500px){
   #invoice{
     transform: scale(0.8);
+    position: absolute;
+    right: 180px;
   }
 }
 

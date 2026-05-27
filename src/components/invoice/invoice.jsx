@@ -1,44 +1,8 @@
-import { useEffect, useState } from "react";
-import { Alert } from "../../components";
+import { useEffect } from "react";
+//import { Alert } from "../../components";
 import "./style.css";
 
-function Invoice({ dataFacturi, setDataFacturi }) {
-  let obj = {
-    furnizor: {
-      denumire: "",
-      nrRegistruCom: "",
-      cif: "",
-      capitalSocial: "",
-      sediul: "",
-      judetul: "",
-      iban: "",
-      banca: "",
-      cotaTva: "",
-    },
-
-    cumparator: {
-      seria: "",
-      denumire: "",
-      nrRegistruCom: "",
-      cif: "",
-      sediul: "",
-      judetul: "",
-      iban: "",
-      banca: "",
-    },
-
-    produse: [],
-
-    dateFactura: {
-      nrFactura: 0,
-      data: "",
-      nrAviz: 0,
-    },
-  };
-  let [dataFactura, setDataFactura] = useState(() => {
-    const saved = localStorage.getItem("data");
-    return saved ? JSON.parse(saved) : [obj];
-  });
+function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj }) {
 
   const salveazaDateFactura = (sectie, field, newValue) => {
     setDataFactura(
@@ -83,11 +47,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     if (dataFactura[0].dateFactura.nrFactura !== 0 && result !== true) {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
     } else if (dataFacturi.length !== 0 && result === true) {
-      if (
-        confirm(
-          `Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`,
-        )
-      ) {
+      if (confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)) {
         let newArray = dataFacturi.filter(
           (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
         );
@@ -132,24 +92,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
     ]);
   };
 
-  useEffect(() => {
-    if (dataFactura[0] !== null) {
-      localStorage.setItem("data", JSON.stringify(dataFactura));
-      localStorage.setItem("dateFacturi", JSON.stringify(dataFacturi));
-    }
-  }, [dataFactura]);
-
-  useEffect(() => {
-    if (dataFacturi.length !== 0) {
-      setDataFactura([dataFacturi[0]]);
-    }
-  }, [dataFacturi]);
-
-  const loadSave = () => {
-    let data = JSON.parse(localStorage.getItem("data"));
-    setDataFactura(data);
-  };
-
   const calcTotal = (column) => {
     let totalSum = 0;
     if (dataFactura[0].produse.length > 0) {
@@ -165,9 +107,6 @@ function Invoice({ dataFacturi, setDataFacturi }) {
       return totalSum;
     }
   };
-  // useEffect(() => {
-  //   loadSave();
-  // }, []);
 
   //listener for keyboard
 
@@ -176,12 +115,19 @@ function Invoice({ dataFacturi, setDataFacturi }) {
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         salveazaDate();
+        setDataFactura([obj]);
       } else if (e.ctrlKey && e.key === "a") {
         e.preventDefault();
         adaugaProdus();
       } else if (e.ctrlKey && e.key === "x") {
         e.preventDefault();
-        setDataFactura([obj]);
+        let nrFacturi = dataFacturi.map((factura) => +factura.dateFactura.nrFactura);
+
+            if(nrFacturi.find((nrfactura) => nrfactura === +dataFactura[0].dateFactura.nrFactura)){
+              setDataFactura([obj])
+            } else if(confirm(`Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`)) {
+              setDataFactura([obj])
+            }
       }
     };
 
@@ -199,13 +145,24 @@ function Invoice({ dataFacturi, setDataFacturi }) {
           <button className="noprint" onClick={adaugaProdus}>
             Adaugă produs
           </button>
-          <button className="noprint" onClick={salveazaDate}>
+          <button className="noprint" onClick={() => {
+            salveazaDate()
+            }}>
             Salvează factura
           </button>
           <button className="noprint" onClick={() => window.print()}>
             Printează
           </button>
-          <button className="noprint" onClick={() => setDataFactura([obj])}>
+          <button className="noprint" onClick={() => {
+            let nrFacturi = dataFacturi.map((factura) => +factura.dateFactura.nrFactura);
+
+            if(nrFacturi.find((nrfactura) => nrfactura === dataFactura[0].dateFactura.nrFactura)){
+              setDataFactura([obj])
+            } else if(confirm(`Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`)) {
+                setDataFactura([obj])
+            }
+            }
+            }>
             Factură nouă
           </button>
         </div>
@@ -339,7 +296,8 @@ function Invoice({ dataFacturi, setDataFacturi }) {
               <div className="headerRow">
                 <span>Data (ziua, luna, anul) </span>
                 <input
-                  type="number"
+                  type="date"
+                  value={dataFactura[0].dateFactura.data}
                   onInput={(e) =>
                     salveazaDateFactura("dateFactura", "data", e.target.value)
                   }
@@ -349,6 +307,7 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                 <span>Nr. aviz insotire a marfii </span>
                 <input
                   type="number"
+                  value={dataFactura[0].dateFactura.nrAviz}
                   onInput={(e) =>
                     salveazaDateFactura("dateFactura", "nrAviz", e.target.value)
                   }
@@ -753,13 +712,13 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                   <input
                     className="inputTotal"
                     type="number"
-                    value={calcTotal("valoareLei")}
+                    value={calcTotal("valoareLei")?.toFixed(2)}
                     readOnly
                   />
                   <input
                     className="inputTotal"
                     type="number"
-                    value={calcTotal("valoareTva")}
+                    value={calcTotal("valoareTva")?.toFixed(2)}
                     readOnly
                   />
                   <input className="inputTotal" type="text" />
@@ -771,8 +730,8 @@ function Invoice({ dataFacturi, setDataFacturi }) {
                     (col.5 + col.6)
                   </span>
                   <span className="totalDePlataNr">
-                    {(+calcTotal("valoareLei") +
-                      +calcTotal("valoareTva")).toFixed(2) +
+                    {(+calcTotal("valoareLei")?.toFixed(2) +
+                      +calcTotal("valoareTva"))?.toFixed(2) +
                       " lei"}
                   </span>
                 </span>
