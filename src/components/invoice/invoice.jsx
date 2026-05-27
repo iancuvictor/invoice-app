@@ -1,8 +1,13 @@
-import { useEffect } from "react";
-//import { Alert } from "../../components";
+import { useEffect, useState } from "react";
+import { Alert } from "../../components";
 import "./style.css";
 
 function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj }) {
+  let [error, setError] = useState({
+    nrFactura: false,
+    numeCumparator: false,
+    facturaExistaDeja: true
+  });
 
   const salveazaDateFactura = (sectie, field, newValue) => {
     setDataFactura(
@@ -43,19 +48,23 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
     }
 
     let result = checkAvailability();
+    console.log(result, +dataFactura[0].dateFactura.nrFactura, dataFactura[0].cumparator.denumire)
 
-    if (dataFactura[0].dateFactura.nrFactura !== 0 && result !== true) {
+    if (+dataFactura[0].dateFactura.nrFactura !== 0 && result !== true && dataFactura[0].cumparator.denumire !== '') {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
-    } else if (dataFacturi.length !== 0 && result === true) {
-      if (confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)) {
-        let newArray = dataFacturi.filter(
-          (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
-        );
-        newArray.splice(0, 0, dataFactura[0]);
-        setDataFacturi(newArray);
-      }
-    } else if (dataFactura[0].dateFactura.nrFactura === 0) {
-      alert("Trebuie să introduci numărul facturii.");
+    } else if (dataFacturi.length !== 0 && result === true && dataFactura[0].cumparator.denumire !== '') {
+      setError({...error, facturaExistaDeja: true});
+      // if (confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)) {
+      //   let newArray = dataFacturi.filter(
+      //     (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
+      //   );
+      //   newArray.splice(0, 0, dataFactura[0]);
+      //   setDataFacturi(newArray);
+      // }
+    } else if(+dataFactura[0].dateFactura.nrFactura === 0) {
+      setError({...error, nrFactura: true});
+    } else if(dataFactura[0].cumparator.denumire === '') {
+      setError({...error, numeCumparator: true});
     }
   };
 
@@ -115,7 +124,6 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         salveazaDate();
-        setDataFactura([obj]);
       } else if (e.ctrlKey && e.key === "a") {
         e.preventDefault();
         adaugaProdus();
@@ -284,12 +292,14 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 <input
                   value={dataFactura[0].dateFactura.nrFactura}
                   type="number"
-                  onInput={(e) =>
+                  className={error.nrFactura ? 'error' : ''}
+                  onChange={(e) => {
+                    setError({...error, nrFactura: false});
                     salveazaDateFactura(
                       "dateFactura",
                       "nrFactura",
                       e.target.value,
-                    )
+                    )}
                   }
                 />
               </div>
@@ -332,9 +342,11 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <input
                 type="text"
                 id="numeCumparator"
+                className={error.numeCumparator ? 'error' : ''}
                 value={dataFactura[0].cumparator.denumire}
-                onInput={(e) =>
-                  salveazaDateFactura("cumparator", "denumire", e.target.value)
+                onChange={(e) => {
+                  setError({...error, numeCumparator: false});
+                  salveazaDateFactura("cumparator", "denumire", e.target.value)}
                 }
               />
             </div>
@@ -740,7 +752,16 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
           </div>
         </div>
       </div>
-      {/* <Alert /> */}
+      <div className={error.facturaExistaDeja ? 'facturaExistaDeja' : 'hidden'}>
+      <Alert adaugaFactura={() => {
+        let newArray = dataFacturi.filter(
+          (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
+        );
+        newArray.splice(0, 0, dataFactura[0]);
+        setDataFacturi(newArray);
+        setError({...error, facturaExistaDeja: false});
+      }} setError={setError} error={error} type='error' text={'Factura cu numărul [' + dataFactura[0].dateFactura.nrFactura + '] există deja, vrei sa o modifici?'}/>
+      </div>
     </div>
   );
 }

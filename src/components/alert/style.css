@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 #alertWrapper{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
 #alertBody{
@@ -9,10 +14,34 @@
     justify-content: center;
     align-items: center;
     padding: 20px 50px 20px 50px;
+    font-size: 20px;
+    font-family: "Outfit", sans-serif;
 }
 
-.error{
+.errorAlert{
     color: white;
     background-color: #DB1236;
     border-radius: 5px;
+}
+
+.butoaneAlerta{
+    width: 100%;
+    display: flex;
+}
+
+.butonAlerta{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 50%;
+    font-family: "Outfit", sans-serif;
+    height: 50px;
+    font-size: 20px;
+    transition: 0.1s ease-in;
+}
+
+.butonAlerta:hover{
+    font-weight: 500;
+    transition: 0.1s ease-in;
 }
