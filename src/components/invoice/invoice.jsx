@@ -6,7 +6,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
   let [error, setError] = useState({
     nrFactura: false,
     numeCumparator: false,
-    facturaExistaDeja: true
+    facturaExistaDeja: false
   });
 
   const salveazaDateFactura = (sectie, field, newValue) => {
@@ -52,6 +52,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
 
     if (+dataFactura[0].dateFactura.nrFactura !== 0 && result !== true && dataFactura[0].cumparator.denumire !== '') {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
+      setDataFactura([obj]);
     } else if (dataFacturi.length !== 0 && result === true && dataFactura[0].cumparator.denumire !== '') {
       setError({...error, facturaExistaDeja: true});
       // if (confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)) {
@@ -759,6 +760,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
         );
         newArray.splice(0, 0, dataFactura[0]);
         setDataFacturi(newArray);
+        setDataFactura([obj]);
         setError({...error, facturaExistaDeja: false});
       }} setError={setError} error={error} type='error' text={'Factura cu numărul [' + dataFactura[0].dateFactura.nrFactura + '] există deja, vrei sa o modifici?'}/>
       </div>
