@@ -69,9 +69,19 @@ function Invoice({
     } else if (
       dataFacturi.length !== 0 &&
       result === true &&
-      dataFactura[0].cumparator.denumire !== "" && error.dontAskAgain === false
+      dataFactura[0].cumparator.denumire !== ""
     ) {
-      setError({ ...error, facturaExistaDeja: true });
+      if(error.dontAskAgain === false){
+        setError({ ...error, facturaExistaDeja: true });
+      } else {
+        let newArray = dataFacturi.filter(
+              (facturi) =>
+                facturi.dateFactura.nrFactura !==
+                dataFactura[0].dateFactura.nrFactura,
+            );
+            newArray.splice(0, 0, dataFactura[0]);
+            setDataFacturi(newArray);
+      }
     } else if (+dataFactura[0].dateFactura.nrFactura === 0) {
       setError({ ...error, nrFactura: true });
     } else if (dataFactura[0].cumparator.denumire === "") {
