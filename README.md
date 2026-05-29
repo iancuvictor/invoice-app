@@ -1,4 +1,7 @@
-Project built in React.JS (first project in React)
+# Project built in React.JS (first project in React)
+###  [Live link to the project](https://iancu-invoice-generator.vercel.app/)
+<img width="1900" height="867" alt="Screenshot 2026-05-30 012528" src="https://github.com/user-attachments/assets/1e598884-eee3-42b0-a699-5fc552f842e5" />
+
 This project is meant to demonstrate the use (and understanding) of:
 - useState/useEffect
 - component usage
@@ -6,18 +9,16 @@ This project is meant to demonstrate the use (and understanding) of:
 - general development logic
 - UX logic
 
-I created this project because, at my girlfriend's job, they still do invoices by hand.
+### I created this project because, at my girlfriend's job, they still do invoices by hand.
 
 The layout of the page is very basic, as it is not meant to necessarily be pretty, but useful. Also, the tool is meant to be used only on desktop, hence the lack of mobile responsiveness or overall responsiveness.
 The invoice follows the basic Romanian invoice body and all of the data is saved locally thru localStorage. 
 You can do the following:
-- save invoices
+- save/create new invoices
 - edit already existing invoices
 - print the invoices
-- send them via email
 - search the invoices in the invoice LIST
-- create new invoices
-- use keyboard commands such as (CTRL+S for saving, CTRL+D for adding products in the invoice and CTRL+X to create a new invoice (or delete the data from the current one (depends if you then keep the same invoice number or not)))
 
-Known issues:
+### Known issues:
 - dataFactura is stored as a single-element array — should be refactored to a plain object, too tedious to do now, will know for future projects.
+- input fields could've been a component, too late to change now, have to move on.
