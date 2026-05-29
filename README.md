@@ -17,7 +17,7 @@ You can do the following:
 - send them via email
 - search the invoices in the invoice LIST
 - create new invoices
-- use keyboard commands such as (CTRL+S for saving, CTRL+A for adding products in the invoice and CTRL+X to create a new invoice (or delete the data from the current one (depends if you then keep the same invoice number or not)))
+- use keyboard commands such as (CTRL+S for saving, CTRL+D for adding products in the invoice and CTRL+X to create a new invoice (or delete the data from the current one (depends if you then keep the same invoice number or not)))
 
 Known issues:
 - dataFactura is stored as a single-element array — should be refactored to a plain object, too tedious to do now, will know for future projects.

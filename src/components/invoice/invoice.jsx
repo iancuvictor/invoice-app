@@ -124,7 +124,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         salveazaDate();
-      } else if (e.ctrlKey && e.key === "a") {
+      } else if (e.ctrlKey && e.key === "d") {
         e.preventDefault();
         adaugaProdus();
       } else if (e.ctrlKey && e.key === "x") {
