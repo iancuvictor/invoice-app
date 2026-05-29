@@ -13,6 +13,7 @@ function Invoice({
     nrFactura: false,
     numeCumparator: false,
     facturaExistaDeja: false,
+    dontAskAgain: false
   });
 
   const updateDateFactura = (sectie, field, newValue) => {
@@ -61,19 +62,19 @@ function Invoice({
     if (
       +dataFactura[0].dateFactura.nrFactura !== 0 &&
       result !== true &&
-      dataFactura[0].cumparator.denumire !== ""
+      dataFactura[0].cumparator.denumire !== "" && error.dontAskAgain === false
     ) {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
       //setDataFactura([obj]);
     } else if (
       dataFacturi.length !== 0 &&
       result === true &&
-      dataFactura[0].cumparator.denumire !== ""
+      dataFactura[0].cumparator.denumire !== "" && error.dontAskAgain === false
     ) {
       setError({ ...error, facturaExistaDeja: true });
-    } else if (+dataFactura[0].dateFactura.nrFactura === 0) {
+    } else if (+dataFactura[0].dateFactura.nrFactura === 0 && error.dontAskAgain === false) {
       setError({ ...error, nrFactura: true });
-    } else if (dataFactura[0].cumparator.denumire === "") {
+    } else if (dataFactura[0].cumparator.denumire === "" && error.dontAskAgain === false) {
       setError({ ...error, numeCumparator: true });
     }
   };
@@ -171,6 +172,9 @@ function Invoice({
     <div id="fullComponent">
       <div id="invoiceBody">
         <div className="buttons noprint">
+          <button className="noprint" onClick={() => setError({...error, dontAskAgain: !error.dontAskAgain})}>
+            {error.dontAskAgain === true ? 'Alertele sunt oprite' : 'Alertele sunt pornite'}
+          </button>
           <button className="noprint" onClick={adaugaProdus}>
             Adaugă produs
           </button>
