@@ -2,8 +2,7 @@ import { Invoice, InvoiceList, Alert } from "./components";
 import "./App.css";
 import { useState, useEffect } from "react";
 
-function App() {
-  let obj = {
+let obj = {
     furnizor: {
       denumire: "",
       nrRegistruCom: "",
@@ -36,12 +35,14 @@ function App() {
     },
   };
 
-  let [dataFacturi, setDataFacturi] = useState(() => {
+function App() {
+
+  const [dataFacturi, setDataFacturi] = useState(() => {
     const saved = localStorage.getItem("dateFacturi");
     return saved ? JSON.parse(saved) : [];
   });
-
-  let [dataFactura, setDataFactura] = useState(() => {
+  // yeah ik it's stupid to have a one object array but right now it's too late to fix. can't kick a dead horse forever
+  const [dataFactura, setDataFactura] = useState(() => {
     const saved = localStorage.getItem("data");
     return saved ? JSON.parse(saved) : [obj];
   });

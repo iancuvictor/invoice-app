@@ -3,13 +3,13 @@ import { Alert } from "../../components";
 import "./style.css";
 
 function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj }) {
-  let [error, setError] = useState({
+  const [error, setError] = useState({
     nrFactura: false,
     numeCumparator: false,
     facturaExistaDeja: false
   });
 
-  const salveazaDateFactura = (sectie, field, newValue) => {
+  const updateDateFactura = (sectie, field, newValue) => {
     setDataFactura(
       dataFactura.map((factura) => {
         return {
@@ -20,7 +20,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
     );
   };
 
-  const updateFactura = (id, field, newValue) => {
+  const updateProdFactura = (id, field, newValue) => {
     setDataFactura([
       {
         ...dataFactura[0],
@@ -145,7 +145,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [dataFactura]);
+  }, [dataFactura, dataFacturi]);
 
   return (
     <div id="fullComponent">
@@ -181,10 +181,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Furnizor:</span>
               <input
                 type="text"
-                id="furnizor"
+                id="denumireFurnizor"
                 value={dataFactura[0].furnizor.denumire}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "denumire", e.target.value)
+                  updateDateFactura("furnizor", "denumire", e.target.value)
                 }
               />
             </div>
@@ -195,7 +195,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="nrRegistruFurnizor"
                 value={dataFactura[0].furnizor.nrRegistruCom}
                 onInput={(e) =>
-                  salveazaDateFactura(
+                  updateDateFactura(
                     "furnizor",
                     "nrRegistruCom",
                     e.target.value,
@@ -207,10 +207,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>C.I.F</span>
               <input
                 type="text"
-                id="cif"
+                id="cifFurnizor"
                 value={dataFactura[0].furnizor.cif}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "cif", e.target.value)
+                  updateDateFactura("furnizor", "cif", e.target.value)
                 }
               />
             </div>
@@ -218,10 +218,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Capital social:</span>
               <input
                 type="text"
-                id="capSoc"
+                id="capSocFurnizor"
                 value={dataFactura[0].furnizor.capitalSocial}
                 onInput={(e) =>
-                  salveazaDateFactura(
+                  updateDateFactura(
                     "furnizor",
                     "capitalSocial",
                     e.target.value,
@@ -236,7 +236,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="sediulFurnizor"
                 value={dataFactura[0].furnizor.sediul}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "sediul", e.target.value)
+                  updateDateFactura("furnizor", "sediul", e.target.value)
                 }
               />
             </div>
@@ -247,7 +247,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="judetulFurnizor"
                 value={dataFactura[0].furnizor.judetul}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "judetul", e.target.value)
+                  updateDateFactura("furnizor", "judetul", e.target.value)
                 }
               />
             </div>
@@ -258,7 +258,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="ibanFurnizor"
                 value={dataFactura[0].furnizor.iban}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "iban", e.target.value)
+                  updateDateFactura("furnizor", "iban", e.target.value)
                 }
               />
             </div>
@@ -266,10 +266,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Banca</span>
               <input
                 type="text"
-                id="banca"
+                id="bancaFurnizor"
                 value={dataFactura[0].furnizor.banca}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "banca", e.target.value)
+                  updateDateFactura("furnizor", "banca", e.target.value)
                 }
               />
             </div>
@@ -280,7 +280,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="cotaTva"
                 value={dataFactura[0].furnizor.cotaTva}
                 onInput={(e) =>
-                  salveazaDateFactura("furnizor", "cotaTva", e.target.value)
+                  updateDateFactura("furnizor", "cotaTva", e.target.value)
                 }
               />
             </div>
@@ -296,7 +296,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   className={error.nrFactura ? 'error' : ''}
                   onChange={(e) => {
                     setError({...error, nrFactura: false});
-                    salveazaDateFactura(
+                    updateDateFactura(
                       "dateFactura",
                       "nrFactura",
                       e.target.value,
@@ -310,7 +310,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   type="date"
                   value={dataFactura[0].dateFactura.data}
                   onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "data", e.target.value)
+                    updateDateFactura("dateFactura", "data", e.target.value)
                   }
                 />
               </div>
@@ -320,7 +320,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   type="number"
                   value={dataFactura[0].dateFactura.nrAviz}
                   onInput={(e) =>
-                    salveazaDateFactura("dateFactura", "nrAviz", e.target.value)
+                    updateDateFactura("dateFactura", "nrAviz", e.target.value)
                   }
                 />
               </div>
@@ -334,7 +334,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="seria"
                 value={dataFactura[0].cumparator.seria}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "seria", e.target.value)
+                  updateDateFactura("cumparator", "seria", e.target.value)
                 }
               />
             </div>
@@ -347,7 +347,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 value={dataFactura[0].cumparator.denumire}
                 onChange={(e) => {
                   setError({...error, numeCumparator: false});
-                  salveazaDateFactura("cumparator", "denumire", e.target.value)}
+                  updateDateFactura("cumparator", "denumire", e.target.value)}
                 }
               />
             </div>
@@ -356,10 +356,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Nr. ord. Registru com/an: </span>
               <input
                 type="text"
-                id="nrRegistruCom"
+                id="nrRegistruComCumparator"
                 value={dataFactura[0].cumparator.nrRegistruCom}
                 onInput={(e) =>
-                  salveazaDateFactura(
+                  updateDateFactura(
                     "cumparator",
                     "nrRegistruCom",
                     e.target.value,
@@ -371,10 +371,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>C.I.F: </span>
               <input
                 type="text"
-                id="cif"
+                id="cifCumparator"
                 value={dataFactura[0].cumparator.cif}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "cif", e.target.value)
+                  updateDateFactura("cumparator", "cif", e.target.value)
                 }
               />
             </div>
@@ -382,10 +382,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Sediul: </span>
               <input
                 type="text"
-                id="sediul"
+                id="sediulCumparator"
                 value={dataFactura[0].cumparator.sediul}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "sediul", e.target.value)
+                  updateDateFactura("cumparator", "sediul", e.target.value)
                 }
               />
             </div>
@@ -393,10 +393,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Judetul: </span>
               <input
                 type="text"
-                id="judetul"
+                id="judetulCumparator"
                 value={dataFactura[0].cumparator.judetul}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "judetul", e.target.value)
+                  updateDateFactura("cumparator", "judetul", e.target.value)
                 }
               />
             </div>
@@ -404,10 +404,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Cod IBAN: </span>
               <input
                 type="text"
-                id="iban"
+                id="ibanCumparator"
                 value={dataFactura[0].cumparator.iban}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "iban", e.target.value)
+                  updateDateFactura("cumparator", "iban", e.target.value)
                 }
               />
             </div>
@@ -416,10 +416,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               <span>Banca: </span>
               <input
                 type="text"
-                id="banca"
+                id="bancaCumparator"
                 value={dataFactura[0].cumparator.banca}
                 onInput={(e) =>
-                  salveazaDateFactura("cumparator", "banca", e.target.value)
+                  updateDateFactura("cumparator", "banca", e.target.value)
                 }
               />
             </div>
@@ -478,7 +478,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   <span className="denumire text">
                     <textarea
                       onChange={(e) =>
-                        updateFactura(produs.id, "denumire", e.target.value)
+                        updateProdFactura(produs.id, "denumire", e.target.value)
                       }
                       rows={1}
                       value={produs.denumire}
@@ -492,7 +492,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     <input
                       onChange={(e) => {
                         calcTotal("valoareLei");
-                        updateFactura(produs.id, "cantitate", +e.target.value);
+                        updateProdFactura(produs.id, "cantitate", +e.target.value);
                       }}
                       type="number"
                       name=""
@@ -504,7 +504,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     <input
                       onChange={(e) => {
                         calcTotal("valoareLei");
-                        updateFactura(produs.id, "pretUnitar", +e.target.value);
+                        updateProdFactura(produs.id, "pretUnitar", +e.target.value);
                       }}
                       type="number"
                       name=""
@@ -555,7 +555,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="regularInput"
                     onInput={(e) =>
-                      salveazaDateFactura("dateFactura", "nume", e.target.value)
+                      updateDateFactura("dateFactura", "nume", e.target.value)
                     }
                   />
                 </div>
@@ -565,7 +565,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="regularInput"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dateFactura",
                         "prenume",
                         e.target.value,
@@ -579,7 +579,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="regularInput"
                     onInput={(e) =>
-                      salveazaDateFactura("dateFactura", "ci", e.target.value)
+                      updateDateFactura("dateFactura", "ci", e.target.value)
                     }
                   />
                 </div>
@@ -589,7 +589,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="regularInput"
                     onInput={(e) =>
-                      salveazaDateFactura("dateFactura", "cnp", e.target.value)
+                      updateDateFactura("dateFactura", "cnp", e.target.value)
                     }
                   />
                 </div>
@@ -605,7 +605,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   type="text"
                   className="regularInput"
                   onInput={(e) =>
-                    salveazaDateFactura(
+                    updateDateFactura(
                       "dateExperditie",
                       "nume",
                       e.target.value,
@@ -620,7 +620,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="serieCI"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dateExpeditie",
                         "serie",
                         e.target.value,
@@ -632,7 +632,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="numarCI"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dateExpeditie",
                         "numar",
                         e.target.value,
@@ -644,7 +644,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="eliberataDe"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dateExpeditie",
                         "eliberata",
                         e.target.value,
@@ -660,7 +660,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   type="text"
                   className="regularInput"
                   onInput={(e) =>
-                    salveazaDateFactura(
+                    updateDateFactura(
                       "dateExpeditie",
                       "mijlocTransport",
                       e.target.value,
@@ -672,7 +672,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   type="text"
                   className="regularInput"
                   onInput={(e) =>
-                    salveazaDateFactura(
+                    updateDateFactura(
                       "dateExpeditie",
                       "mijlocTransportNr",
                       e.target.value,
@@ -688,7 +688,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="dataExpediere"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dataExpeditie",
                         "dataExpediere",
                         e.target.value,
@@ -700,7 +700,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     type="text"
                     className="oraExpediere"
                     onInput={(e) =>
-                      salveazaDateFactura(
+                      updateDateFactura(
                         "dataExpeditie",
                         "oraExpediere",
                         e.target.value,

@@ -5,13 +5,6 @@ function InvoiceList({ array, setArray, setDataFactura }) {
     setArray([]);
   };
 
-  // const loadFactura = (index) => {
-  //   let newArray = array.filter((facturi) => array.indexOf(facturi) !== index);
-  //   newArray.splice(0, 0, array[index]);
-  //   setArray(newArray);
-  //   // console.log(array);
-  // };
-
   const loadFactura = (index) => {
     setDataFactura([array[index]]);
   };
