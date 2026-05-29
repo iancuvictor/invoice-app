@@ -33,6 +33,29 @@ let obj = {
       data: "",
       nrAviz: 0,
     },
+
+    semnatura: {
+      nume: '',
+      prenume: '',
+      bici: '',
+      cnp: '',
+    },
+
+    dateExpeditie: {
+      nume: '',
+      serie: '',
+      numar: 0,
+      eliberata: '',
+      mijlocTransport: '',
+      mijlocTransportNr: '',
+      dataExpediere: '',
+      oraExpediere: ''
+    },
+
+    accize: {
+      totalAccize: '',
+      totalAccizeTva: ''
+    }
   };
 
 function App() {

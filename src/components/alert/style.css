@@ -45,3 +45,7 @@
     font-weight: 500;
     transition: 0.1s ease-in;
 }
+
+.hidden{
+    display: none;
+}

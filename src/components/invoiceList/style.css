@@ -22,7 +22,7 @@
 }
 
 .stergeFactura{
-    width: 10%;
+    width: 15%;
     cursor: pointer;
     background-color: rgb(255, 20, 66, 50%);
     transition: 0.1s ease-out;

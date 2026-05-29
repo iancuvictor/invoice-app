@@ -9,13 +9,14 @@ function InvoiceList({ array, setArray, setDataFactura }) {
     setArray([]);
   };
 
-  const loadFactura = (identifier) => {
-    let facturaToLoad = array.filter((factura) => identifier === factura?.cumparator?.denumire);
+  const loadFactura = (number) => {
+    let facturaToLoad = array.filter((factura) => number === factura.dateFactura.nrFactura);
     console.log(facturaToLoad)
     setDataFactura(facturaToLoad);
   };
 
   const deleteFactura = (number) => {
+    // setError();
     let newArr = array.filter((factura) => factura.dateFactura.nrFactura !== number);
     setArray(newArr);
   };
@@ -27,12 +28,12 @@ function InvoiceList({ array, setArray, setDataFactura }) {
 
   return (
     <div id="body">
-      <h1>LISTA FACTURI</h1>
+      <h1 className='titluLista'>LISTA FACTURI</h1>
       <input className='searchInvoiceInp' type="text" onChange={(e) => setSearchWord(e.target.value)} placeholder="Caută o factură"/>
       {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).length !== 0 ? array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).sort((a, b) => b.dateFactura.nrFactura - a.dateFactura.nrFactura).map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
-            <button className="butonLista" onClick={() => loadFactura(factura?.cumparator?.denumire)}>
+            <button className="butonLista" onClick={() => loadFactura(factura.dateFactura.nrFactura)}>
               <span className="nrFactura">{factura.dateFactura.nrFactura}</span>
               <span className="numeFactura">
                 {factura?.cumparator?.denumire}

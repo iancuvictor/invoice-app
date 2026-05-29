@@ -33,6 +33,10 @@
   font-size: 14px;
 }
 
+.seller input, .receiver input, .center input{
+  font-size: 10px;
+}
+
 .seller, .receiver{
   display: flex;
   flex-direction: column;
@@ -257,7 +261,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 5px;
 }
 
 .headerRow span {
@@ -310,11 +314,11 @@
 }
 
 .dataExpediere{
-  width: 80px;
+  width: 100px;
 }
 
 .oraExpediere{
-  width: 50px;
+  width: 70px;
 }
 
 .bodyFooter input{
