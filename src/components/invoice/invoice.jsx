@@ -119,7 +119,6 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
   };
 
   //listener for keyboard
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.key === "s") {

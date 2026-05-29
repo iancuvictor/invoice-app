@@ -1,6 +1,10 @@
+import { useState } from "react";
 import "./style.css";
 
 function InvoiceList({ array, setArray, setDataFactura }) {
+  const [searchWord, setSearchWord] = useState('');
+
+
   const deleteFacturi = () => {
     setArray([]);
   };
@@ -19,15 +23,11 @@ function InvoiceList({ array, setArray, setDataFactura }) {
   //     setArray([...array, data]);
   //   }, [])
 
-  const searchFacturi = (array) => {
-    array.sort();
-  };
-
   return (
     <div id="body">
       <h1>LISTA FACTURI</h1>
-      <input type="text" onChange={() => searchFacturi()} />
-      {array?.map((factura, index) => {
+      <input type="text" onChange={(e) => setSearchWord(e.target.value)} />
+      {array?.filter((factura) => factura.cumparator.denumire.includes(searchWord)).map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
             <button className="butonLista" onClick={() => loadFactura(index)}>
