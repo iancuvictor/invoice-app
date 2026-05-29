@@ -1,6 +1,8 @@
+
 # Project built in React.JS (first project in React)
 ###  [Live link to the project](https://iancu-invoice-generator.vercel.app/)
 <img width="1900" height="867" alt="Screenshot 2026-05-30 012528" src="https://github.com/user-attachments/assets/1e598884-eee3-42b0-a699-5fc552f842e5" />
+Video Preview: (https://github.com/user-attachments/assets/ed2f4d20-dae0-4df3-afb4-7aea67dc819e)
 
 This project is meant to demonstrate the use (and understanding) of:
 - useState/useEffect
