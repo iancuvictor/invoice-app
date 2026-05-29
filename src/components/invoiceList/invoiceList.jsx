@@ -15,8 +15,8 @@ function InvoiceList({ array, setArray, setDataFactura }) {
     setDataFactura(facturaToLoad);
   };
 
-  const deleteFactura = (index) => {
-    let newArr = array.filter((factura) => array.indexOf(factura) !== index);
+  const deleteFactura = (number) => {
+    let newArr = array.filter((factura) => factura.dateFactura.nrFactura !== number);
     setArray(newArr);
   };
 
@@ -28,8 +28,8 @@ function InvoiceList({ array, setArray, setDataFactura }) {
   return (
     <div id="body">
       <h1>LISTA FACTURI</h1>
-      <input type="text" onChange={(e) => setSearchWord(e.target.value)} placeholder="Caută o factură"/>
-      {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).length !== 0 ? array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).map((factura, index) => {
+      <input className='searchInvoiceInp' type="text" onChange={(e) => setSearchWord(e.target.value)} placeholder="Caută o factură"/>
+      {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).length !== 0 ? array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).sort((a, b) => b.dateFactura.nrFactura - a.dateFactura.nrFactura).map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
             <button className="butonLista" onClick={() => loadFactura(factura?.cumparator?.denumire)}>
@@ -40,13 +40,13 @@ function InvoiceList({ array, setArray, setDataFactura }) {
             </button>
             <button
               className="stergeFactura"
-              onClick={() => deleteFactura(index)}
+              onClick={() => deleteFactura(factura.dateFactura.nrFactura)}
             >
               X
             </button>
           </div>
         );
-      }) : <div>Nu există nici o factură cu acest nume</div>}
+      }) : <div>Nu există nici o factură</div>}
       <button className="stergeLista" onClick={() => deleteFacturi()}>
         Șterge întreaga listă
       </button>
