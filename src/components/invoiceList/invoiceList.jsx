@@ -27,7 +27,7 @@ function InvoiceList({ array, setArray, setDataFactura }) {
     <div id="body">
       <h1>LISTA FACTURI</h1>
       <input type="text" onChange={(e) => setSearchWord(e.target.value)} />
-      {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord)).map((factura, index) => {
+      {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase()).map((factura, index) => {
         return (
           <div id="bodyButonLista" key={index}>
             <button className="butonLista" onClick={() => loadFactura(index)}>
