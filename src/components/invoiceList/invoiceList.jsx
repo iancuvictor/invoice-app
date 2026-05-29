@@ -11,7 +11,6 @@ function InvoiceList({ array, setArray, setDataFactura }) {
 
   const loadFactura = (number) => {
     let facturaToLoad = array.filter((factura) => number === factura.dateFactura.nrFactura);
-    console.log(facturaToLoad)
     setDataFactura(facturaToLoad);
   };
 
@@ -28,7 +27,7 @@ function InvoiceList({ array, setArray, setDataFactura }) {
 
   return (
     <div id="body">
-      <h1 className='titluLista'>LISTA FACTURI</h1>
+      <h1 className='titluLista'>LISTĂ FACTURI</h1>
       <input className='searchInvoiceInp' type="text" onChange={(e) => setSearchWord(e.target.value)} placeholder="Caută o factură"/>
       {array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).length !== 0 ? array?.filter((factura) => factura.cumparator.denumire.toLowerCase().includes(searchWord.toLowerCase())).sort((a, b) => b.dateFactura.nrFactura - a.dateFactura.nrFactura).map((factura, index) => {
         return (

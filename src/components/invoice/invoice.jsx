@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { Alert } from "../../components";
 import "./style.css";
 
-function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj }) {
+function Invoice({
+  dataFacturi,
+  setDataFacturi,
+  dataFactura,
+  setDataFactura,
+  obj,
+}) {
   const [error, setError] = useState({
     nrFactura: false,
     numeCumparator: false,
-    facturaExistaDeja: false
+    facturaExistaDeja: false,
   });
 
   const updateDateFactura = (sectie, field, newValue) => {
@@ -39,7 +45,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
     function checkAvailability() {
       if (dataFacturi.length > 0) {
         for (let facturi of dataFacturi) {
-          if (facturi.dateFactura.nrFactura === dataFactura[0].dateFactura.nrFactura) {
+          if (
+            facturi.dateFactura.nrFactura ===
+            dataFactura[0].dateFactura.nrFactura
+          ) {
             return true;
           }
         }
@@ -48,24 +57,24 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
     }
 
     let result = checkAvailability();
-    console.log(result, +dataFactura[0].dateFactura.nrFactura, dataFactura[0].cumparator.denumire)
 
-    if (+dataFactura[0].dateFactura.nrFactura !== 0 && result !== true && dataFactura[0].cumparator.denumire !== '') {
+    if (
+      +dataFactura[0].dateFactura.nrFactura !== 0 &&
+      result !== true &&
+      dataFactura[0].cumparator.denumire !== ""
+    ) {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
       //setDataFactura([obj]);
-    } else if (dataFacturi.length !== 0 && result === true && dataFactura[0].cumparator.denumire !== '') {
-      setError({...error, facturaExistaDeja: true});
-      // if (confirm(`Factura cu numărul ${dataFactura[0].dateFactura.nrFactura} există deja, vrei sa o modifici?`)) {
-      //   let newArray = dataFacturi.filter(
-      //     (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
-      //   );
-      //   newArray.splice(0, 0, dataFactura[0]);
-      //   setDataFacturi(newArray);
-      // }
-    } else if(+dataFactura[0].dateFactura.nrFactura === 0) {
-      setError({...error, nrFactura: true});
-    } else if(dataFactura[0].cumparator.denumire === '') {
-      setError({...error, numeCumparator: true});
+    } else if (
+      dataFacturi.length !== 0 &&
+      result === true &&
+      dataFactura[0].cumparator.denumire !== ""
+    ) {
+      setError({ ...error, facturaExistaDeja: true });
+    } else if (+dataFactura[0].dateFactura.nrFactura === 0) {
+      setError({ ...error, nrFactura: true });
+    } else if (dataFactura[0].cumparator.denumire === "") {
+      setError({ ...error, numeCumparator: true });
     }
   };
 
@@ -115,6 +124,8 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
         }
       }
       return totalSum;
+    } else {
+      return 0;
     }
   };
 
@@ -129,13 +140,23 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
         adaugaProdus();
       } else if (e.ctrlKey && e.key === "x") {
         e.preventDefault();
-        let nrFacturi = dataFacturi.map((factura) => +factura.dateFactura.nrFactura);
+        let nrFacturi = dataFacturi.map(
+          (factura) => +factura.dateFactura.nrFactura,
+        );
 
-            if(nrFacturi.find((nrfactura) => nrfactura === +dataFactura[0].dateFactura.nrFactura)){
-              setDataFactura([obj])
-            } else if(confirm(`Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`)) {
-              setDataFactura([obj])
-            }
+        if (
+          nrFacturi.find(
+            (nrfactura) => nrfactura === +dataFactura[0].dateFactura.nrFactura,
+          )
+        ) {
+          setDataFactura([obj]);
+        } else if (
+          confirm(
+            `Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`,
+          )
+        ) {
+          setDataFactura([obj]);
+        }
       }
     };
 
@@ -153,24 +174,41 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
           <button className="noprint" onClick={adaugaProdus}>
             Adaugă produs
           </button>
-          <button className="noprint" onClick={() => {
-            salveazaDate()
-            }}>
+          <button
+            className="noprint"
+            onClick={() => {
+              salveazaDate();
+            }}
+          >
             Salvează factura
           </button>
           <button className="noprint" onClick={() => window.print()}>
             Printează
           </button>
-          <button className="noprint" onClick={() => {
-            let nrFacturi = dataFacturi.map((factura) => +factura.dateFactura.nrFactura);
+          <button
+            className="noprint"
+            onClick={() => {
+              let nrFacturi = dataFacturi.map(
+                (factura) => +factura.dateFactura.nrFactura,
+              );
+              console.log(nrFacturi);
 
-            if(nrFacturi.find((nrfactura) => nrfactura === dataFactura[0].dateFactura.nrFactura)){
-              setDataFactura([obj])
-            } else if(confirm(`Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`)) {
-                setDataFactura([obj])
-            }
-            }
-            }>
+              if (
+                nrFacturi.find(
+                  (nrfactura) =>
+                    nrfactura === dataFactura[0].dateFactura.nrFactura,
+                )
+              ) {
+                setDataFactura([obj]);
+              } else if (
+                confirm(
+                  `Nu ai salvat această factură. Ești sigur că vrei sa creezi una nouă?`,
+                )
+              ) {
+                setDataFactura([obj]);
+              }
+            }}
+          >
             Factură nouă
           </button>
         </div>
@@ -194,11 +232,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="nrRegistruFurnizor"
                 value={dataFactura[0].furnizor.nrRegistruCom}
                 onChange={(e) =>
-                  updateDateFactura(
-                    "furnizor",
-                    "nrRegistruCom",
-                    e.target.value,
-                  )
+                  updateDateFactura("furnizor", "nrRegistruCom", e.target.value)
                 }
               />
             </div>
@@ -220,11 +254,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 id="capSocFurnizor"
                 value={dataFactura[0].furnizor.capitalSocial}
                 onChange={(e) =>
-                  updateDateFactura(
-                    "furnizor",
-                    "capitalSocial",
-                    e.target.value,
-                  )
+                  updateDateFactura("furnizor", "capitalSocial", e.target.value)
                 }
               />
             </div>
@@ -240,7 +270,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               />
             </div>
             <div className="headerRow">
-              <span>Judetul:</span>
+              <span>Județul:</span>
               <input
                 type="text"
                 id="judetulFurnizor"
@@ -262,7 +292,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               />
             </div>
             <div className="headerRow">
-              <span>Banca</span>
+              <span>Banca:</span>
               <input
                 type="text"
                 id="bancaFurnizor"
@@ -273,7 +303,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               />
             </div>
             <div className="headerRow">
-              <span>Cota T.V.A.:</span>
+              <span>Cotă T.V.A.:</span>
               <input
                 type="text"
                 id="cotaTva"
@@ -292,15 +322,15 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 <input
                   value={dataFactura[0].dateFactura.nrFactura}
                   type="number"
-                  className={error.nrFactura ? 'error' : ''}
+                  className={error.nrFactura ? "error" : ""}
                   onChange={(e) => {
-                    setError({...error, nrFactura: false});
+                    setError({ ...error, nrFactura: false });
                     updateDateFactura(
                       "dateFactura",
                       "nrFactura",
                       e.target.value,
-                    )}
-                  }
+                    );
+                  }}
                 />
               </div>
               <div className="headerRow">
@@ -314,7 +344,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                 />
               </div>
               <div className="headerRow">
-                <span>Nr. aviz insotire a marfii </span>
+                <span>Nr. aviz însoțire a mărfii </span>
                 <input
                   type="number"
                   value={dataFactura[0].dateFactura.nrAviz}
@@ -338,19 +368,19 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               />
             </div>
             <div className="headerRow">
-              <span>Cumparator: </span>
+              <span>Cumpărător: </span>
               <input
                 type="text"
                 id="numeCumparator"
-                className={error.numeCumparator ? 'error' : ''}
+                className={error.numeCumparator ? "error" : ""}
                 value={dataFactura[0].cumparator.denumire}
                 onChange={(e) => {
-                  setError({...error, numeCumparator: false});
-                  updateDateFactura("cumparator", "denumire", e.target.value)}
-                }
+                  setError({ ...error, numeCumparator: false });
+                  updateDateFactura("cumparator", "denumire", e.target.value);
+                }}
               />
             </div>
-            <span className="info">(denumire, forma juridica)</span>
+            <span className="info">(denumire, formă juridică)</span>
             <div className="headerRow">
               <span>Nr. ord. Registru com/an: </span>
               <input
@@ -389,7 +419,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               />
             </div>
             <div className="headerRow">
-              <span>Judetul: </span>
+              <span>Județul: </span>
               <input
                 type="text"
                 id="judetulCumparator"
@@ -447,8 +477,8 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
             </div>
             <div className="row pretUnitar">
               <span className="text">
-                Pretul unitar <br />
-                (fara T.V.A) <br />
+                Prețul unitar <br />
+                (fară T.V.A) <br />
                 -lei-
               </span>
               <span className="number">4</span>
@@ -491,7 +521,11 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     <input
                       onChange={(e) => {
                         calcTotal("valoareLei");
-                        updateProdFactura(produs.id, "cantitate", +e.target.value);
+                        updateProdFactura(
+                          produs.id,
+                          "cantitate",
+                          +e.target.value,
+                        );
                       }}
                       type="number"
                       name=""
@@ -503,7 +537,11 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     <input
                       onChange={(e) => {
                         calcTotal("valoareLei");
-                        updateProdFactura(produs.id, "pretUnitar", +e.target.value);
+                        updateProdFactura(
+                          produs.id,
+                          "pretUnitar",
+                          +e.target.value,
+                        );
                       }}
                       type="number"
                       name=""
@@ -550,7 +588,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
               </span>
               <div className="datePersoana">
                 <div className="footerRow">
-                  <span>NUME</span>
+                  <span>NUME:</span>
                   <input
                     type="text"
                     className="regularInput"
@@ -561,22 +599,18 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   />
                 </div>
                 <div className="footerRow">
-                  <span>PRENUME</span>
+                  <span>PRENUME:</span>
                   <input
                     type="text"
                     className="regularInput"
                     value={dataFactura[0]?.semnatura?.prenume}
                     onChange={(e) =>
-                      updateDateFactura(
-                        "semnatura",
-                        "prenume",
-                        e.target.value,
-                      )
+                      updateDateFactura("semnatura", "prenume", e.target.value)
                     }
                   />
                 </div>
                 <div className="footerRow">
-                  <span>B.I/C.I</span>
+                  <span>B.I/C.I:</span>
                   <input
                     type="text"
                     className="regularInput"
@@ -587,7 +621,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   />
                 </div>
                 <div className="footerRow">
-                  <span>C.N.P</span>
+                  <span>C.N.P:</span>
                   <input
                     type="text"
                     className="regularInput"
@@ -610,11 +644,7 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                   className="regularInput"
                   value={dataFactura[0]?.dateExpeditie?.nume}
                   onChange={(e) =>
-                    updateDateFactura(
-                      "dateExpeditie",
-                      "nume",
-                      e.target.value,
-                    )
+                    updateDateFactura("dateExpeditie", "nume", e.target.value)
                   }
                 />
               </div>
@@ -746,20 +776,26 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     value={calcTotal("valoareTva")?.toFixed(2)}
                     readOnly
                   />
-                  <input className="inputTotal" type="text" value={dataFactura[0]?.accize?.totalAccize} onChange={(e) =>
-                      updateDateFactura(
-                        "accize",
-                        "totalAccize",
-                        e.target.value,
-                      )
-                    }/>
-                  <input className="inputTotal" type="text" value={dataFactura[0]?.accize?.totalAccizeTva} onChange={(e) =>
+                  <input
+                    className="inputTotal"
+                    type="text"
+                    value={dataFactura[0]?.accize?.totalAccize}
+                    onChange={(e) =>
+                      updateDateFactura("accize", "totalAccize", e.target.value)
+                    }
+                  />
+                  <input
+                    className="inputTotal"
+                    type="text"
+                    value={dataFactura[0]?.accize?.totalAccizeTva}
+                    onChange={(e) =>
                       updateDateFactura(
                         "accize",
                         "totalAccizeTva",
                         e.target.value,
                       )
-                    }/>
+                    }
+                  />
                 </div>
                 <span className="totalDePlata">
                   <span>
@@ -767,9 +803,10 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
                     (col.5 + col.6)
                   </span>
                   <span className="totalDePlataNr">
-                    {(+calcTotal("valoareLei")?.toFixed(2) +
-                      +calcTotal("valoareTva"))?.toFixed(2) +
-                      " lei"}
+                    {(
+                      +calcTotal("valoareLei")?.toFixed(2) +
+                      +calcTotal("valoareTva")
+                    )?.toFixed(2) + " lei"}
                   </span>
                 </span>
               </div>
@@ -777,16 +814,30 @@ function Invoice({ dataFacturi, setDataFacturi, dataFactura, setDataFactura, obj
           </div>
         </div>
       </div>
-      <div className={error.facturaExistaDeja ? 'facturaExistaDeja' : 'hidden'}>
-      <Alert functie={() => {
-        let newArray = dataFacturi.filter(
-          (facturi) =>  facturi.dateFactura.nrFactura !== dataFactura[0].dateFactura.nrFactura,
-        );
-        newArray.splice(0, 0, dataFactura[0]);
-        setDataFacturi(newArray);
-        //setDataFactura([obj]);
-        setError({...error, facturaExistaDeja: false});
-      }} confirm='Da' deny='Nu' setError={setError} error={error} type='error' text={'Factura cu numărul [' + dataFactura[0].dateFactura.nrFactura + '] există deja, vrei sa o modifici?'}/>
+      <div className={error.facturaExistaDeja ? "facturaExistaDeja" : "hidden"}>
+        <Alert
+          functie={() => {
+            let newArray = dataFacturi.filter(
+              (facturi) =>
+                facturi.dateFactura.nrFactura !==
+                dataFactura[0].dateFactura.nrFactura,
+            );
+            newArray.splice(0, 0, dataFactura[0]);
+            setDataFacturi(newArray);
+            //setDataFactura([obj]);
+            setError({ ...error, facturaExistaDeja: false });
+          }}
+          confirm="Da"
+          deny="Nu"
+          setError={setError}
+          error={error}
+          type="error"
+          text={
+            "Factura cu numărul [" +
+            dataFactura[0].dateFactura.nrFactura +
+            "] există deja, vrei sa o modifici?"
+          }
+        />
       </div>
     </div>
   );
