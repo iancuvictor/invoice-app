@@ -62,7 +62,7 @@ function Invoice({
     if (
       +dataFactura[0].dateFactura.nrFactura !== 0 &&
       result !== true &&
-      dataFactura[0].cumparator.denumire !== "" && error.dontAskAgain === false
+      dataFactura[0].cumparator.denumire !== ""
     ) {
       setDataFacturi([dataFactura[0], ...dataFacturi]);
       //setDataFactura([obj]);
@@ -72,9 +72,9 @@ function Invoice({
       dataFactura[0].cumparator.denumire !== "" && error.dontAskAgain === false
     ) {
       setError({ ...error, facturaExistaDeja: true });
-    } else if (+dataFactura[0].dateFactura.nrFactura === 0 && error.dontAskAgain === false) {
+    } else if (+dataFactura[0].dateFactura.nrFactura === 0) {
       setError({ ...error, nrFactura: true });
-    } else if (dataFactura[0].cumparator.denumire === "" && error.dontAskAgain === false) {
+    } else if (dataFactura[0].cumparator.denumire === "") {
       setError({ ...error, numeCumparator: true });
     }
   };
@@ -196,11 +196,12 @@ function Invoice({
                 (factura) => +factura.dateFactura.nrFactura,
               );
               console.log(nrFacturi);
+              console.log(dataFactura[0].dateFactura.nrFactura)
 
               if (
                 nrFacturi.find(
                   (nrfactura) =>
-                    nrfactura === dataFactura[0].dateFactura.nrFactura,
+                    +nrfactura === +dataFactura[0].dateFactura.nrFactura,
                 )
               ) {
                 setDataFactura([obj]);
